@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33205.214
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "quotes-web", "quotes-web\quotes-web.csproj", "{9CE5532B-D2F4-40C8-AD0B-6B598C25CAB0}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{7FAD3503-B8D2-42E4-A430-8EB8DFAFAE90}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug Compose|Any CPU = Debug Compose|Any CPU
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9CE5532B-D2F4-40C8-AD0B-6B598C25CAB0}.Debug Compose|Any CPU.ActiveCfg = Debug|Any CPU
+		{9CE5532B-D2F4-40C8-AD0B-6B598C25CAB0}.Debug Compose|Any CPU.Build.0 = Debug|Any CPU
+		{9CE5532B-D2F4-40C8-AD0B-6B598C25CAB0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9CE5532B-D2F4-40C8-AD0B-6B598C25CAB0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9CE5532B-D2F4-40C8-AD0B-6B598C25CAB0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9CE5532B-D2F4-40C8-AD0B-6B598C25CAB0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7FAD3503-B8D2-42E4-A430-8EB8DFAFAE90}.Debug Compose|Any CPU.ActiveCfg = Debug|Any CPU
+		{7FAD3503-B8D2-42E4-A430-8EB8DFAFAE90}.Debug Compose|Any CPU.Build.0 = Debug|Any CPU
+		{7FAD3503-B8D2-42E4-A430-8EB8DFAFAE90}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7FAD3503-B8D2-42E4-A430-8EB8DFAFAE90}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7FAD3503-B8D2-42E4-A430-8EB8DFAFAE90}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7FAD3503-B8D2-42E4-A430-8EB8DFAFAE90}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3D78CD20-842A-4C5A-996C-DFE8D5A0F1FE}
+	EndGlobalSection
+EndGlobal
