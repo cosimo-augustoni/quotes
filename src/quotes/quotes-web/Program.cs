@@ -21,7 +21,6 @@ namespace quotes_web
                 app.UseExceptionHandler("/Error");
             }
 
-
             app.UseStaticFiles();
 
             app.UseRouting();
@@ -32,7 +31,18 @@ namespace quotes_web
             app.MapBlazorHub();
             app.MapFallbackToPage("/_Host");
 
+            EnsureDatabaseCreated(app);
+
             app.Run();
+
+        }
+
+        private static void EnsureDatabaseCreated(WebApplication app)
+        {
+            var serviceScopeFactory = app.Services.GetRequiredService<IServiceScopeFactory>();
+            using var serviceScope = serviceScopeFactory.CreateScope();
+            using var context = serviceScope.ServiceProvider.GetRequiredService<QuotesContext>();
+            context.Database.EnsureCreated();
         }
 
         public static void ConfigureServices(IServiceCollection services, ConfigurationManager configurationManager)
