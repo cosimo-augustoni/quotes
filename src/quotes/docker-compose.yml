@@ -8,3 +8,10 @@ services:
       dockerfile: quotes-web/Dockerfile
     volumes:
       - ${APPDATA}\Quotes\appsettings.json:/config.json
+  sql-server:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+        ACCEPT_EULA: "Y"
+        MSSQL_SA_PASSWORD: "mysuperSecureSQlServerPassword152"
+    #ports:
+    #  - "1433:1433"

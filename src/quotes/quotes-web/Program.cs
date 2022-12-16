@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using quotes_web.Data;
 
@@ -38,16 +39,20 @@ namespace quotes_web
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
-            services.AddSingleton<WeatherForecastService>();
+            AddAuthentication(services, configurationManager);
 
+            services.AddDbContext<QuotesContext>(opt => opt.UseSqlServer(configurationManager.GetConnectionString("quotes")));
+        }
 
+        private static void AddAuthentication(IServiceCollection services, ConfigurationManager configurationManager)
+        {
             var oidcConfiguration = configurationManager.GetRequiredSection("OIDC").Get<OIDCConfiguration>() ?? throw new ArgumentException("OIDC konnte nicht ausgelesen werden");
             services.AddAuthentication(opt =>
-            {
-                opt.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                opt.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                opt.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
-            })
+                {
+                    opt.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                    opt.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                    opt.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
+                })
                 .AddCookie().AddOpenIdConnect("oidc", options =>
                 {
                     options.Authority = oidcConfiguration.Authority;
@@ -59,7 +64,7 @@ namespace quotes_web
                     options.Scope.Add("openid");
                     options.Scope.Add("profile");
                     options.Scope.Add("groups");
-                    options.TokenValidationParameters = new TokenValidationParameters{ NameClaimType = "name" };
+                    options.TokenValidationParameters = new TokenValidationParameters { NameClaimType = "name" };
 
                     options.Events = new OpenIdConnectEvents
                     {
@@ -72,6 +77,5 @@ namespace quotes_web
                     };
                 });
         }
-
     }
 }
