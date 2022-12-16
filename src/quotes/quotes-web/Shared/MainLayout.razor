@@ -2,19 +2,17 @@
 
 <PageTitle>quotes-web</PageTitle>
 
-<div class="page">
-    <div class="top-row px-4">
-        <AuthorizeView>
-            <Authorized>
-                <h1>Hello, @context.User.Identity.Name !</h1>
-                <form method="get" action="logout">
-                    <button type="submit" class="nav-link btn btn-link">Log out</button>
-                </form>
-                @Body
-            </Authorized>
-            <NotAuthorized>
-                <a href="login?redirectUri=/">Log in</a>
-            </NotAuthorized>
-        </AuthorizeView>
-    </div>
-</div>
+
+<AuthorizeView>
+    <Authorized>
+        <h1>Hello, @context.User.Identity.Name !</h1>
+        <form method="get" action="logout">
+            <button type="submit" class="nav-link btn btn-link">Log out</button>
+        </form>
+        @Body
+    </Authorized>
+    <NotAuthorized>
+        <a href="login?redirectUri=/">Log in</a>
+    </NotAuthorized>
+</AuthorizeView>
+

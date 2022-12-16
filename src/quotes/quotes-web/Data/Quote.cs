@@ -8,7 +8,8 @@ public class Quote
 
     public required DateTime DateOfQuote { get; set; }
 
-    public virtual required Author Author { get; init; }
+    public required Guid AuthorId { get; init; }
+    public virtual Author? Author { get; init; }
 
     public DateTime? DeletedAt { get; set; }
 

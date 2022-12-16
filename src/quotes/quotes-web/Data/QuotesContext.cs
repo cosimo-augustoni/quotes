@@ -4,7 +4,7 @@ namespace quotes_web.Data;
 
 public class QuotesContext : DbContext
 {
-    public QuotesContext(DbContextOptions options) 
+    public QuotesContext(DbContextOptions options)
         : base(options)
     {
     }
@@ -21,7 +21,8 @@ public class QuotesContext : DbContext
         quotesBuilder.Property(q => q.DateOfQuote);
         quotesBuilder.Property(q => q.DeletedAt);
         quotesBuilder.HasOne(q => q.Author)
-            .WithMany(a => a.Quotes);
+            .WithMany(a => a.Quotes)
+            .HasForeignKey(q => q.AuthorId);
 
         var authorBuilder = modelBuilder.Entity<Author>().ToTable("Author");
         authorBuilder.HasKey(q => q.Id);
