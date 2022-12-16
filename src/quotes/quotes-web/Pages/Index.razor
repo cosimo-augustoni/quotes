@@ -25,10 +25,16 @@
                 </p>
                 <button type="submit">Submit</button>
             </EditForm>
-               <ul>
+            <ul>
                 @foreach (var quote in QuotesContext.Quotes!.Include(q => q.Author))
                 {
-                    <li>@quote.Text @quote.DateOfQuote.ToShortDateString() @quote.Author?.Name <button @onclick="(_=>DeleteQuote(quote.Id))">Delete</button> </li>
+                    <li>
+                        @quote.Text @quote.DateOfQuote.ToShortDateString() @quote.Author?.Name
+                        @if (@context.User.Claims.Where(c => c.Type.Equals("groups")).Any(i => i.Value.Equals("quotes-admin")))
+                        {
+                            <button @onclick="(_=>DeleteQuote(quote.Id))">Delete</button>
+                        }
+                    </li>
                 }
             </ul>
             <EditForm Context="createAuthorCtx" Model="@authorCreation" OnValidSubmit="@CreateAuthor">
@@ -43,7 +49,13 @@
             <ul>
                 @foreach (var author in QuotesContext.Authors)
                 {
-                    <li>@author.Name <button @onclick="(_=>DeleteAuthor(author.Id))">Delete</button> </li>
+                    <li>
+                        @author.Name
+                        @if (@context.User.Claims.Where(c => c.Type.Equals("groups")).Any(i => i.Value.Equals("quotes-admin")))
+                        {
+                            <button @onclick="(_=>DeleteAuthor(author.Id))">Delete</button>
+                        }
+                    </li>
                 }
             </ul>
 
