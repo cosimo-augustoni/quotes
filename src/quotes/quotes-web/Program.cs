@@ -24,7 +24,7 @@ namespace quotes_web
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            app.UseHttpsRedirection();
             app.UseAuthentication();
             app.UseAuthorization();
 
@@ -85,6 +85,9 @@ namespace quotes_web
                             return Task.CompletedTask;
                         }
                     };
+
+                    options.NonceCookie.SecurePolicy = CookieSecurePolicy.Always;
+                    options.CorrelationCookie.SecurePolicy = CookieSecurePolicy.Always;
                 });
         }
     }
