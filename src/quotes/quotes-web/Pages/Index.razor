@@ -1,14 +1,18 @@
 ﻿@page "/"
 @using quotes_web.Data
 @using Microsoft.EntityFrameworkCore;
+@using System.ComponentModel.DataAnnotations;
+
 @inject QuotesContext QuotesContext
 <AuthorizeView>
     <Authorized>
         <div>
             <EditForm Context="createQuoteCtx" Model="@quoteCreation" OnValidSubmit="@CreateQuote">
+                <DataAnnotationsValidator />
                 <p>
                     <label for="q-text">Text: </label>
                     <InputText id="q-text" @bind-Value="quoteCreation.Text" />
+                    <ValidationMessage For="() => quoteCreation.Text" />
                 </p>
                 <p>
                     <label for="classification">Author: </label>
@@ -21,19 +25,28 @@
                 </p>
                 <button type="submit">Submit</button>
             </EditForm>
+               <ul>
+                @foreach (var quote in QuotesContext.Quotes!.Include(q => q.Author))
+                {
+                    <li>@quote.Text @quote.DateOfQuote.ToShortDateString() @quote.Author?.Name <button @onclick="(_=>DeleteQuote(quote.Id))">Delete</button> </li>
+                }
+            </ul>
             <EditForm Context="createAuthorCtx" Model="@authorCreation" OnValidSubmit="@CreateAuthor">
+                <DataAnnotationsValidator />
                 <p>
                     <label for="a-text">Name: </label>
                     <InputText id="a-text" @bind-Value="authorCreation.Name" />
+                    <ValidationMessage For="() => authorCreation.Name" />
                 </p>
                 <button type="submit">Submit</button>
             </EditForm>
             <ul>
-                @foreach (var quote in QuotesContext.Quotes!.Include(q=> q.Author))
+                @foreach (var author in QuotesContext.Authors)
                 {
-                    <li> @quote.Id @quote.Text @quote.DateOfQuote.ToShortDateString() @quote.Author?.Name </li>
+                    <li>@author.Name <button @onclick="(_=>DeleteAuthor(author.Id))">Delete</button> </li>
                 }
             </ul>
+
         </div>
     </Authorized>
     <NotAuthorized>
@@ -65,14 +78,35 @@
             });
         QuotesContext.SaveChanges();
     }
+    private void DeleteQuote(Guid id)
+    {
+        var quote = QuotesContext.Quotes.Find(id);
+        QuotesContext.Remove(quote);
+        QuotesContext.SaveChanges();
+    }
+
+    private void DeleteAuthor(Guid id)
+    {
+        var author = QuotesContext.Authors.Find(id);
+        QuotesContext.Remove(author);
+        QuotesContext.SaveChanges();
+    }
 
     public class QuoteCreation
     {
+        [Required]
+        [StringLength(1024,
+        ErrorMessage = "Text zu lang")]
         public string? Text { get; set; }
+        [Required]
         public Guid? AuthorId { get; set; }
     }
+
     public class AuthorCreation
     {
+        [Required]
+        [StringLength(255,
+        ErrorMessage = "Name zu lang")]
         public string? Name { get; set; }
     }
 
