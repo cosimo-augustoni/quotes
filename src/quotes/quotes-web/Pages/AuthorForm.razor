@@ -1,0 +1,26 @@
+﻿@using quotes_web.Data
+
+@inject QuotesContext QuotesContext
+
+<EditForm Context="createAuthorCtx" Model="@authorCreation" OnValidSubmit="@CreateAuthor">
+    <DataAnnotationsValidator />
+    <p>
+        <label for="a-text">Name: </label>
+        <InputText id="a-text" @bind-Value="authorCreation.Name" />
+        <ValidationMessage For="() => authorCreation.Name" />
+    </p>
+    <button type="submit">Submit</button>
+</EditForm>
+
+@code {
+    private AuthorCreation authorCreation = new AuthorCreation();
+    private void CreateAuthor()
+    {
+        QuotesContext.Add(new Author
+            {
+                Id = Guid.NewGuid(),
+                Name = authorCreation.Name,
+            });
+        QuotesContext.SaveChanges();
+    }
+}

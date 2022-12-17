@@ -1,0 +1,28 @@
+﻿@using Microsoft.EntityFrameworkCore;
+
+@inject quotes_web.Data.QuotesContext QuotesContext
+
+<ul>
+    @foreach (var quote in QuotesContext.Quotes!.Include(q => q.Author))
+    {
+        <li>
+            @quote.Text @quote.DateOfQuote.ToShortDateString() @quote.Author?.Name
+            @if (ShowDelete)
+            {
+                <button @onclick="(_ => DeleteQuote(quote.Id))">Delete</button>
+            }
+        </li>
+    }
+</ul>
+
+@code {
+    [Parameter]
+    public bool ShowDelete{ get; set; }
+
+    private void DeleteQuote(Guid id)
+    {
+        var quote = QuotesContext.Quotes.Find(id);
+        QuotesContext.Remove(quote);
+        QuotesContext.SaveChanges();
+    }
+}

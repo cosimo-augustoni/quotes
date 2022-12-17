@@ -1,148 +1,21 @@
 ﻿@page "/"
-@using quotes_web.Data
-@using Microsoft.EntityFrameworkCore;
-@using System.ComponentModel.DataAnnotations;
-@using System.Text.Json
-@using quotes_web.Data.Import
 
-@inject QuotesContext QuotesContext
+@inject quotes_web.Data.QuotesContext QuotesContext
+
 <AuthorizeView>
     <Authorized>
         @if (@context.User.Claims.Where(c => c.Type.Equals("groups")).Any(i => i.Value.Equals("quotes-admin")))
         {
-            <InputFile OnChange="@Import"/>
+            <ImportForm></ImportForm>
         }
-        
-
         <div>
-            <EditForm Context="createQuoteCtx" Model="@quoteCreation" OnValidSubmit="@CreateQuote">
-                <DataAnnotationsValidator/>
-                <p>
-                    <label for="q-text">Text: </label>
-                    <InputText id="q-text" @bind-Value="quoteCreation.Text"/>
-                    <ValidationMessage For="() => quoteCreation.Text"/>
-                </p>
-                <p>
-                    <label for="classification">Author: </label>
-                    <InputSelect id="classification" @bind-Value="quoteCreation.AuthorId">
-                        @foreach (var author in QuotesContext.Authors!)
-                        {
-                            <option value="@author.Id">@author.Name</option>
-                        }
-                    </InputSelect>
-                </p>
-                <button type="submit">Submit</button>
-            </EditForm>
-            <ul>
-                @foreach (var quote in QuotesContext.Quotes!.Include(q => q.Author))
-                {
-                    <li>
-                        @quote.Text @quote.DateOfQuote.ToShortDateString() @quote.Author?.Name
-                        @if (@context.User.Claims.Where(c => c.Type.Equals("groups")).Any(i => i.Value.Equals("quotes-admin")))
-                        {
-                            <button @onclick="(_ => DeleteQuote(quote.Id))">Delete</button>
-                        }
-                    </li>
-                }
-            </ul>
-            <EditForm Context="createAuthorCtx" Model="@authorCreation" OnValidSubmit="@CreateAuthor">
-                <DataAnnotationsValidator/>
-                <p>
-                    <label for="a-text">Name: </label>
-                    <InputText id="a-text" @bind-Value="authorCreation.Name"/>
-                    <ValidationMessage For="() => authorCreation.Name"/>
-                </p>
-                <button type="submit">Submit</button>
-            </EditForm>
-            <ul>
-                @foreach (var author in QuotesContext.Authors)
-                {
-                    <li>
-                        @author.Name
-                        @if (@context.User.Claims.Where(c => c.Type.Equals("groups")).Any(i => i.Value.Equals("quotes-admin")))
-                        {
-                            <button @onclick="(_ => DeleteAuthor(author.Id))">Delete</button>
-                        }
-                    </li>
-                }
-            </ul>
-
+            <QuoteForm></QuoteForm>
+            <QuoteList ShowDelete=@context.User.Claims.Where(c => c.Type.Equals("groups")).Any(i => i.Value.Equals("quotes-admin"))></QuoteList>
+           <AuthorForm></AuthorForm>
+            <AuthorList ShowDelete=@context.User.Claims.Where(c => c.Type.Equals("groups")).Any(i => i.Value.Equals("quotes-admin"))></AuthorList>
         </div>
     </Authorized>
     <NotAuthorized>
         <p>Not Authorized</p>
     </NotAuthorized>
 </AuthorizeView>
-@code {
-    private QuoteCreation quoteCreation = new QuoteCreation();
-    private AuthorCreation authorCreation = new AuthorCreation();
-
-    private void CreateQuote()
-    {
-        QuotesContext.Add(new Quote
-            {
-                Text = quoteCreation.Text,
-                AuthorId = quoteCreation.AuthorId.Value,
-                DateOfQuote = DateTime.Today,
-                Id = Guid.NewGuid(),
-            });
-        QuotesContext.SaveChanges();
-    }
-
-    private void CreateAuthor()
-    {
-        QuotesContext.Add(new Author
-            {
-                Id = Guid.NewGuid(),
-                Name = authorCreation.Name,
-            });
-        QuotesContext.SaveChanges();
-    }
-    private void DeleteQuote(Guid id)
-    {
-        var quote = QuotesContext.Quotes.Find(id);
-        QuotesContext.Remove(quote);
-        QuotesContext.SaveChanges();
-    }
-
-    private void DeleteAuthor(Guid id)
-    {
-        var author = QuotesContext.Authors.Find(id);
-        QuotesContext.Remove(author);
-        QuotesContext.SaveChanges();
-    }
-
-    private async Task Import(InputFileChangeEventArgs e)
-    {
-        using var stream = new MemoryStream();
-        await e.File.OpenReadStream().CopyToAsync(stream);
-        stream.Seek(0, 0);
-
-        var importContainer = JsonSerializer.Deserialize<ImportContainer>(stream);
-        if (importContainer?.Authors != null)
-            QuotesContext.Authors!.AddRange(importContainer.Authors);
-        if (importContainer?.Quotes != null)
-            QuotesContext.Quotes!.AddRange(importContainer.Quotes);
-
-        await QuotesContext.SaveChangesAsync();
-    }
-
-    public class QuoteCreation
-    {
-        [Required]
-        [StringLength(1024,
-        ErrorMessage = "Text zu lang")]
-        public string? Text { get; set; }
-        [Required]
-        public Guid? AuthorId { get; set; }
-    }
-
-    public class AuthorCreation
-    {
-        [Required]
-        [StringLength(255,
-        ErrorMessage = "Name zu lang")]
-        public string? Name { get; set; }
-    }
-
-}

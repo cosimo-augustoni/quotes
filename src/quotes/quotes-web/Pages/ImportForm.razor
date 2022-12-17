@@ -1,0 +1,24 @@
+﻿@using quotes_web.Data
+@using System.Text.Json
+@using quotes_web.Data.Import
+
+@inject QuotesContext QuotesContext
+
+<InputFile OnChange="@Import" />
+
+@code {
+    private async Task Import(InputFileChangeEventArgs e)
+    {
+        using var stream = new MemoryStream();
+        await e.File.OpenReadStream().CopyToAsync(stream);
+        stream.Seek(0, 0);
+
+        var importContainer = JsonSerializer.Deserialize<ImportContainer>(stream);
+        if (importContainer?.Authors != null)
+            QuotesContext.Authors!.AddRange(importContainer.Authors);
+        if (importContainer?.Quotes != null)
+            QuotesContext.Quotes!.AddRange(importContainer.Quotes);
+
+        await QuotesContext.SaveChangesAsync();
+    }
+}

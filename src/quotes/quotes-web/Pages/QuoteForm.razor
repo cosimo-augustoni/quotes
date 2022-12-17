@@ -1,0 +1,37 @@
+﻿@using quotes_web.Data
+
+@inject QuotesContext QuotesContext
+
+<EditForm Context="createQuoteCtx" Model="@quoteCreation" OnValidSubmit="@CreateQuote">
+    <DataAnnotationsValidator />
+    <p>
+        <label for="q-text">Text: </label>
+        <InputText id="q-text" @bind-Value="quoteCreation.Text" />
+        <ValidationMessage For="() => quoteCreation.Text" />
+    </p>
+    <p>
+        <label for="classification">Author: </label>
+        <InputSelect id="classification" @bind-Value="quoteCreation.AuthorId">
+            @foreach (var author in QuotesContext.Authors!)
+            {
+                <option value="@author.Id">@author.Name</option>
+            }
+        </InputSelect>
+    </p>
+    <button type="submit">Submit</button>
+</EditForm>
+
+@code {
+    private QuoteCreation quoteCreation = new QuoteCreation();
+    private void CreateQuote()
+    {
+        QuotesContext.Add(new Quote
+            {
+                Text = quoteCreation.Text,
+                AuthorId = quoteCreation.AuthorId.Value,
+                DateOfQuote = DateTime.Today,
+                Id = Guid.NewGuid(),
+            });
+        QuotesContext.SaveChanges();
+    }
+}

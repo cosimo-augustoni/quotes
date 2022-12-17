@@ -1,0 +1,26 @@
+﻿@inject quotes_web.Data.QuotesContext QuotesContext
+
+<ul>
+    @foreach (var author in QuotesContext.Authors)
+    {
+        <li>
+            @author.Name
+            @if (ShowDelete)
+            {
+                <button @onclick="(_ => DeleteAuthor(author.Id))">Delete</button>
+            }
+        </li>
+    }
+</ul>
+
+@code {
+    [Parameter]
+    public bool ShowDelete { get; set; }
+
+    private void DeleteAuthor(Guid id)
+    {
+        var author = QuotesContext.Authors.Find(id);
+        QuotesContext.Remove(author);
+        QuotesContext.SaveChanges();
+    }
+}
