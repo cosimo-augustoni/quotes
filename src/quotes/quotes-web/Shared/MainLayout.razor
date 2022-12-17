@@ -5,10 +5,12 @@
 
 <AuthorizeView>
     <Authorized>
-        <h1>Hello, @context.User.Identity.Name !</h1>
-        <form method="get" action="logout">
-            <button type="submit" class="nav-link btn btn-link">Log out</button>
-        </form>
+        <div class="u-flex">
+            <h1>Quotes 2.0</h1>
+            <form method="get" action="logout">
+                <button type="submit" class="nav-link btn btn-link">Log out</button>
+            </form>
+        </div>
         @Body
     </Authorized>
     <NotAuthorized>
@@ -16,3 +18,8 @@
     </NotAuthorized>
 </AuthorizeView>
 
+<style>
+    .u-flex {
+        display: flex;
+    }
+</style>

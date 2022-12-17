@@ -8,10 +8,13 @@
         {
             <ImportForm></ImportForm>
         }
-        <div>
+        <div class="u-flex">
+
             <QuoteForm></QuoteForm>
             <QuoteList ShowDelete=@context.User.Claims.Where(c => c.Type.Equals("groups")).Any(i => i.Value.Equals("quotes-admin"))></QuoteList>
-           <AuthorForm></AuthorForm>
+        </div>
+        <div class="u-flex">
+            <AuthorForm></AuthorForm>
             <AuthorList ShowDelete=@context.User.Claims.Where(c => c.Type.Equals("groups")).Any(i => i.Value.Equals("quotes-admin"))></AuthorList>
         </div>
     </Authorized>
@@ -19,3 +22,8 @@
         <p>Not Authorized</p>
     </NotAuthorized>
 </AuthorizeView>
+<style>
+    .u-flex {
+        display: flex;
+    }
+</style>

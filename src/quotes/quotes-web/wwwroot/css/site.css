@@ -1,7 +1,12 @@
 @import url('open-iconic/font/css/open-iconic-bootstrap.min.css');
 
 html, body {
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-family: 'Shadows Into Light';
+}
+
+@font-face {
+    font-family: 'Shadows Into Light';
+    src: url('../fonts/ShadowsIntoLight-Regular.ttf') format('truetype');
 }
 
 h1:focus {
