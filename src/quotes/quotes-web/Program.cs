@@ -1,3 +1,6 @@
+using Blazorise;
+using Blazorise.Bootstrap;
+using Blazorise.Icons.FontAwesome;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.EntityFrameworkCore;
@@ -49,6 +52,9 @@ namespace quotes_web
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
+            services.AddBlazorise()
+                .AddBootstrapProviders()
+                .AddFontAwesomeIcons();
             AddAuthentication(services, configurationManager);
 
             services.AddDbContext<QuotesContext>(opt => opt.UseSqlServer(configurationManager.GetConnectionString("quotes")));

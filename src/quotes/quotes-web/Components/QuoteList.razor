@@ -9,7 +9,7 @@
             @quote.Text @quote.DateOfQuote.ToShortDateString() @quote.Author?.Name
             @if (ShowDelete)
             {
-                <button @onclick="(_ => DeleteQuote(quote.Id))">Delete</button>
+                <Icon Name="@IconName.Delete" IconStyle="IconStyle.Solid" @onclick="(_ => DeleteQuote(quote.Id))" />
             }
         </li>
     }

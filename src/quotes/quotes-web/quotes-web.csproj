@@ -11,6 +11,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Blazorise.Bootstrap" Version="1.1.5" />
+    <PackageReference Include="Blazorise.Icons.FontAwesome" Version="1.1.5" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="7.0.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.1">

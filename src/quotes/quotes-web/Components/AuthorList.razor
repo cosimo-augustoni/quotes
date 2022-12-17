@@ -7,7 +7,7 @@
             @author.Name
             @if (ShowDelete)
             {
-                <button @onclick="(_ => DeleteAuthor(author.Id))">Delete</button>
+                <Icon Name="@IconName.Delete" IconStyle="IconStyle.Solid" @onclick="(_ => DeleteAuthor(author.Id))" />
             }
         </li>
     }
