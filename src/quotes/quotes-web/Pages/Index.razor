@@ -2,17 +2,25 @@
 @using quotes_web.Data
 @using Microsoft.EntityFrameworkCore;
 @using System.ComponentModel.DataAnnotations;
+@using System.Text.Json
+@using quotes_web.Data.Import
 
 @inject QuotesContext QuotesContext
 <AuthorizeView>
     <Authorized>
+        @if (@context.User.Claims.Where(c => c.Type.Equals("groups")).Any(i => i.Value.Equals("quotes-admin")))
+        {
+            <InputFile OnChange="@Import"/>
+        }
+        
+
         <div>
             <EditForm Context="createQuoteCtx" Model="@quoteCreation" OnValidSubmit="@CreateQuote">
-                <DataAnnotationsValidator />
+                <DataAnnotationsValidator/>
                 <p>
                     <label for="q-text">Text: </label>
-                    <InputText id="q-text" @bind-Value="quoteCreation.Text" />
-                    <ValidationMessage For="() => quoteCreation.Text" />
+                    <InputText id="q-text" @bind-Value="quoteCreation.Text"/>
+                    <ValidationMessage For="() => quoteCreation.Text"/>
                 </p>
                 <p>
                     <label for="classification">Author: </label>
@@ -32,17 +40,17 @@
                         @quote.Text @quote.DateOfQuote.ToShortDateString() @quote.Author?.Name
                         @if (@context.User.Claims.Where(c => c.Type.Equals("groups")).Any(i => i.Value.Equals("quotes-admin")))
                         {
-                            <button @onclick="(_=>DeleteQuote(quote.Id))">Delete</button>
+                            <button @onclick="(_ => DeleteQuote(quote.Id))">Delete</button>
                         }
                     </li>
                 }
             </ul>
             <EditForm Context="createAuthorCtx" Model="@authorCreation" OnValidSubmit="@CreateAuthor">
-                <DataAnnotationsValidator />
+                <DataAnnotationsValidator/>
                 <p>
                     <label for="a-text">Name: </label>
-                    <InputText id="a-text" @bind-Value="authorCreation.Name" />
-                    <ValidationMessage For="() => authorCreation.Name" />
+                    <InputText id="a-text" @bind-Value="authorCreation.Name"/>
+                    <ValidationMessage For="() => authorCreation.Name"/>
                 </p>
                 <button type="submit">Submit</button>
             </EditForm>
@@ -53,7 +61,7 @@
                         @author.Name
                         @if (@context.User.Claims.Where(c => c.Type.Equals("groups")).Any(i => i.Value.Equals("quotes-admin")))
                         {
-                            <button @onclick="(_=>DeleteAuthor(author.Id))">Delete</button>
+                            <button @onclick="(_ => DeleteAuthor(author.Id))">Delete</button>
                         }
                     </li>
                 }
@@ -102,6 +110,21 @@
         var author = QuotesContext.Authors.Find(id);
         QuotesContext.Remove(author);
         QuotesContext.SaveChanges();
+    }
+
+    private async Task Import(InputFileChangeEventArgs e)
+    {
+        using var stream = new MemoryStream();
+        await e.File.OpenReadStream().CopyToAsync(stream);
+        stream.Seek(0, 0);
+
+        var importContainer = JsonSerializer.Deserialize<ImportContainer>(stream);
+        if (importContainer?.Authors != null)
+            QuotesContext.Authors!.AddRange(importContainer.Authors);
+        if (importContainer?.Quotes != null)
+            QuotesContext.Quotes!.AddRange(importContainer.Quotes);
+
+        await QuotesContext.SaveChangesAsync();
     }
 
     public class QuoteCreation
