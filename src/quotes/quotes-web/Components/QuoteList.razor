@@ -1,6 +1,6 @@
 ﻿@using Microsoft.EntityFrameworkCore;
 
-@inject quotes_web.Data.QuotesContext QuotesContext
+@inject QuotesContext QuotesContext
 
 <ul>
     @foreach (var quote in QuotesContext.Quotes!.Include(q => q.Author))

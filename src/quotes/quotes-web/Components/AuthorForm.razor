@@ -1,6 +1,4 @@
-﻿@using quotes_web.Data
-
-@inject QuotesContext QuotesContext
+﻿@inject QuotesContext QuotesContext
 
 <EditForm Context="createAuthorCtx" Model="@authorCreation" OnValidSubmit="@CreateAuthor">
     <DataAnnotationsValidator />

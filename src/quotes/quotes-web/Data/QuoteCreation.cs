@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace quotes_web.Pages
+namespace quotes_web.Data
 {
     public class QuoteCreation
     {
