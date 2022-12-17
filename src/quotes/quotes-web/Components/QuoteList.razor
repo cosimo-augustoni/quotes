@@ -3,7 +3,7 @@
 @inject QuotesContext QuotesContext
 
 <ul>
-    @foreach (var quote in QuotesContext.Quotes!.Include(q => q.Author))
+    @foreach (var quote in QuotesContext.Quotes!.Include(q => q.Author).OrderByDescending(i => i.DateOfQuote))
     {
         <li>
             @quote.Text @quote.DateOfQuote.ToShortDateString() @quote.Author?.Name
@@ -17,7 +17,7 @@
 
 @code {
     [Parameter]
-    public bool ShowDelete{ get; set; }
+    public bool ShowDelete { get; set; }
 
     private void DeleteQuote(Guid id)
     {
