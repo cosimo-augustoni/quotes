@@ -4,7 +4,7 @@
     <DataAnnotationsValidator />
     <p>
         <label for="q-text">Text: </label>
-        <InputText id="q-text" @bind-Value="quoteCreation.Text" />
+        <InputTextArea id="q-text" @bind-Value="quoteCreation.Text" />
         <ValidationMessage For="() => quoteCreation.Text" />
     </p>
     <p>
