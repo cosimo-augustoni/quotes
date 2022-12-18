@@ -1,0 +1,10 @@
+﻿@inject NavigationManager NavigationManager
+
+<Icon Name="@IconName.Backward" IconStyle="IconStyle.Solid" Clicked="() => MethodToTriggerUrl()" />
+@code {
+
+    void MethodToTriggerUrl()
+    {
+        NavigationManager.NavigateTo("/");
+    }
+}
