@@ -4,18 +4,18 @@
 
 <AuthorizeView>
     <Authorized>
-        @if (@context.User.Claims.Where(c => c.Type.Equals("groups")).Any(i => i.Value.Equals("quotes-admin")))
+        @if (@IsAdmin(context))
         {
             <ImportForm></ImportForm>
         }
+        <a href="author/create">Create Author</a>
+        <a href="author/quote">Create Quote</a>
         <div class="u-flex">
 
-            <QuoteForm></QuoteForm>
-            <QuoteList ShowDelete=@context.User.Claims.Where(c => c.Type.Equals("groups")).Any(i => i.Value.Equals("quotes-admin"))></QuoteList>
+            <QuoteList ShowDelete=@IsAdmin(context)></QuoteList>
         </div>
         <div class="u-flex">
-            <AuthorForm></AuthorForm>
-            <AuthorList ShowDelete=@context.User.Claims.Where(c => c.Type.Equals("groups")).Any(i => i.Value.Equals("quotes-admin"))></AuthorList>
+            <AuthorList ShowDelete=@IsAdmin(context)></AuthorList>
         </div>
     </Authorized>
     <NotAuthorized>
@@ -27,3 +27,9 @@
         display: flex;
     }
 </style>
+@code{
+    private static bool IsAdmin(AuthenticationState ctx)
+    {
+        return ctx.User.Claims.Where(c => c.Type.Equals("groups")).Any(i => i.Value.Equals("quotes-admin"));
+    }
+}
