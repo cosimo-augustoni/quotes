@@ -1,0 +1,9 @@
+﻿ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+

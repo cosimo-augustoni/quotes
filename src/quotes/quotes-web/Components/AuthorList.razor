@@ -7,7 +7,9 @@
             @author.Name
             @if (ShowDelete)
             {
-                <Icon Name="@IconName.Delete" IconStyle="IconStyle.Solid" Clicked="() => DeleteAuthor(author.Id)" />
+                <Button Clicked="() => DeleteAuthor(author.Id)">
+                    <Icon Name="@IconName.Delete" IconStyle="IconStyle.Solid" TextColor="TextColor.Danger" />
+                </Button>
             }
         </li>
     }

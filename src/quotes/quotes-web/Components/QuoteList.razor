@@ -2,15 +2,25 @@
 
 @inject QuotesContext QuotesContext
 
-<ul>
+<ul class="quote-list">
     @foreach (var quote in QuotesContext.Quotes!.Include(q => q.Author).OrderByDescending(i => i.DateOfQuote))
     {
         <li>
-            @quote.Text @quote.DateOfQuote.ToShortDateString() @quote.Author?.Name
-            @if (ShowDelete)
-            {
-                <Icon Name="@IconName.Delete" IconStyle="IconStyle.Solid" Clicked="() => DeleteQuote(quote.Id)" />
-            }
+            <Card>
+                <CardBody>
+                    <CardTitle Size="5">@quote.Text</CardTitle>
+                    <CardText>
+                        @quote.Author?.Name - <small>@quote.DateOfQuote.ToShortDateString()</small>
+                    </CardText>
+
+                    @if (ShowDelete)
+                    {
+                        <Button Clicked="() => DeleteQuote(quote.Id)">
+                            <Icon Name="@IconName.Delete" IconStyle="IconStyle.Solid" TextColor="TextColor.Danger" />
+                        </Button>
+                    }
+                </CardBody>
+            </Card>
         </li>
     }
 </ul>

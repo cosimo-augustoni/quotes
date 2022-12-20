@@ -27,9 +27,11 @@
         display: flex;
     }
 </style>
-@code{
+@code {
     private static bool IsAdmin(AuthenticationState ctx)
     {
-        return ctx.User.Claims.Where(c => c.Type.Equals("groups")).Any(i => i.Value.Equals("quotes-admin"));
+        return ctx.User.Claims
+            .Where(c => c.Type.Equals("groups"))
+            .Any(i => i.Value.Equals("quotes-admin"));
     }
 }
