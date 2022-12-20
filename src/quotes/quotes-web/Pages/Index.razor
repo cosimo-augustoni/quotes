@@ -11,7 +11,6 @@
             <ImportForm></ImportForm>
         }
         <div class="u-flex">
-
             <QuoteList ShowDelete=@IsAdmin(context)></QuoteList>
         </div>
         <div class="u-flex">
@@ -24,8 +23,7 @@
                 </DropdownToggle>
                 <DropdownMenu>
                     <DropdownItem>
-                        <Icon Clicked="() => NavigateToAuthorCreation()" Name="IconName.Users" IconStyle="IconStyle.Solid" IconSize="IconSize.Large"/>
-
+                        <Icon Clicked="() => NavigateToAuthorCreation()" Name="IconName.Users" IconStyle="IconStyle.Solid" IconSize="IconSize.Large" />
                     </DropdownItem>
                     <DropdownItem>
                         <Icon Clicked="() => NavigateToQuoteCreation()" Name="IconName.QuoteRight" IconStyle="IconStyle.Solid" IconSize="IconSize.Large" />
