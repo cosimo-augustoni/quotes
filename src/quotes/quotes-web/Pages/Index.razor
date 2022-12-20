@@ -1,5 +1,7 @@
 ﻿@page "/"
+@using Blazorise
 
+@inject NavigationManager NavigationManager
 @inject QuotesContext QuotesContext
 
 <AuthorizeView>
@@ -8,14 +10,28 @@
         {
             <ImportForm></ImportForm>
         }
-        <a href="author/create">Create Author</a>
-        <a href="quote/create">Create Quote</a>
         <div class="u-flex">
 
             <QuoteList ShowDelete=@IsAdmin(context)></QuoteList>
         </div>
         <div class="u-flex">
             <AuthorList ShowDelete=@IsAdmin(context)></AuthorList>
+        </div>
+        <div class="add-button">
+            <Dropdown>
+                <DropdownToggle Color="Color.Primary">
+                    <Icon Name="IconName.Add" IconStyle="IconStyle.Solid" IconSize="IconSize.Large" />
+                </DropdownToggle>
+                <DropdownMenu>
+                    <DropdownItem>
+                        <Icon Clicked="() => NavigateToAuthorCreation()" Name="IconName.Users" IconStyle="IconStyle.Solid" IconSize="IconSize.Large"/>
+
+                    </DropdownItem>
+                    <DropdownItem>
+                        <Icon Clicked="() => NavigateToQuoteCreation()" Name="IconName.QuoteRight" IconStyle="IconStyle.Solid" IconSize="IconSize.Large" />
+                    </DropdownItem>
+                </DropdownMenu>
+            </Dropdown>
         </div>
     </Authorized>
     <NotAuthorized>
@@ -26,6 +42,24 @@
     .u-flex {
         display: flex;
     }
+
+    .add-button .dropdown {
+        position: fixed;
+        bottom: 1rem;
+        right: 1rem;
+    }
+
+    .add-button .dropdown-toggle::after {
+        display: none;
+    }
+
+    .add-button .dropdown-menu {
+        min-width: auto;
+    }
+
+    .add-button .dropdown-item {
+        padding: 0.6em;
+    }
 </style>
 @code {
     private static bool IsAdmin(AuthenticationState ctx)
@@ -33,5 +67,13 @@
         return ctx.User.Claims
             .Where(c => c.Type.Equals("groups"))
             .Any(i => i.Value.Equals("quotes-admin"));
+    }
+    void NavigateToQuoteCreation()
+    {
+        NavigationManager.NavigateTo("quote/create");
+    }
+    void NavigateToAuthorCreation()
+    {
+        NavigationManager.NavigateTo("author/create");
     }
 }
