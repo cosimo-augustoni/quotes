@@ -10,5 +10,7 @@ namespace quotes_web.Data
         public string? Text { get; set; }
         [Required(ErrorMessage = "Author ist erforderlich")]
         public Guid? AuthorId { get; set; }
+        [Required(ErrorMessage = "Tag des Zitates ist erforderlich")]
+        public  DateTime? DateOfQuote { get; set; }
     }
 }

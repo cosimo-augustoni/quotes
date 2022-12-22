@@ -15,6 +15,18 @@
         </Validation>
         <Validation>
             <Field>
+                <FieldLabel>Tag des Zitates</FieldLabel>
+                <FieldBody>
+                    <DatePicker TValue="DateTime?" @bind-Date="quoteCreation.DateOfQuote" Placeholder="Tag auswählen">
+                        <Feedback>
+                            <ValidationError />
+                        </Feedback>
+                    </DatePicker>
+                </FieldBody>
+            </Field>
+        </Validation>
+        <Validation>
+            <Field>
                 <FieldLabel>Author</FieldLabel>
                 <FieldBody>
                     <Select @bind-SelectedValue="quoteCreation.AuthorId">
@@ -53,7 +65,7 @@
                 {
                     Text = quoteCreation.Text,
                     AuthorId = quoteCreation.AuthorId.Value,
-                    DateOfQuote = DateTime.Today,
+                    DateOfQuote = quoteCreation.DateOfQuote.Value,
                     Id = Guid.NewGuid(),
                 });
             await QuotesContext.SaveChangesAsync();
