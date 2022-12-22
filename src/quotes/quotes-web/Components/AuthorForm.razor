@@ -1,24 +1,35 @@
 ﻿@inject QuotesContext QuotesContext
-
-<EditForm Context="createAuthorCtx" Model="@authorCreation" OnValidSubmit="@CreateAuthor">
-    <DataAnnotationsValidator />
-    <p>
-        <label for="a-text">Name: </label>
-        <InputText id="a-text" @bind-Value="authorCreation.Name" />
-        <ValidationMessage For="() => authorCreation.Name" />
-    </p>
-    <button type="submit">Submit</button>
-</EditForm>
-
+<Container Fluid>
+    <Validations @ref="validations" Model="@authorCreation" Mode="ValidationMode.Manual">
+        <Validation>
+            <Field>
+                <FieldLabel>Name</FieldLabel>
+                <FieldBody>
+                    <MemoEdit  Rows="2" @bind-Text="authorCreation.Name" Placeholder="Name eingeben">
+                        <Feedback>
+                            <ValidationError />
+                        </Feedback>
+                    </MemoEdit>
+                </FieldBody>
+            </Field>
+        </Validation>
+        <Button Color="Color.Primary" Clicked="@CreateAuthor">Hinzufügen</Button>
+    </Validations>
+</Container>
 @code {
+    private Validations? validations;
     private AuthorCreation authorCreation = new AuthorCreation();
-    private void CreateAuthor()
+    private async Task CreateAuthor()
     {
-        QuotesContext.Add(new Author
-            {
-                Id = Guid.NewGuid(),
-                Name = authorCreation.Name,
-            });
-        QuotesContext.SaveChanges();
+        if (await validations.ValidateAll())
+        {
+            QuotesContext.Add(new Author
+                {
+                    Id = Guid.NewGuid(),
+                    Name = authorCreation.Name,
+                });
+            await QuotesContext.SaveChangesAsync();
+        }
     }
+
 }

@@ -1,35 +1,62 @@
 ﻿@inject QuotesContext QuotesContext
-
-<EditForm Context="createQuoteCtx" Model="@quoteCreation" OnValidSubmit="@CreateQuote">
-    <DataAnnotationsValidator />
-    <p>
-        <label for="q-text">Text: </label>
-        <InputTextArea id="q-text" @bind-Value="quoteCreation.Text" />
-        <ValidationMessage For="() => quoteCreation.Text" />
-    </p>
-    <p>
-        <label for="classification">Author: </label>
-        <InputSelect id="classification" @bind-Value="quoteCreation.AuthorId">
-            @foreach (var author in QuotesContext.Authors!)
-            {
-                <option value="@author.Id">@author.Name</option>
-            }
-        </InputSelect>
-    </p>
-    <button type="submit">Submit</button>
-</EditForm>
-
+<Container Fluid>
+    <Validations @ref="validations" Model="@quoteCreation" Mode="ValidationMode.Manual">
+        <Validation>
+            <Field>
+                <FieldLabel>Zitat</FieldLabel>
+                <FieldBody>
+                    <MemoEdit Rows="2" @bind-Text="quoteCreation.Text" Placeholder="Zitat eingeben">
+                        <Feedback>
+                            <ValidationError />
+                        </Feedback>
+                    </MemoEdit>
+                </FieldBody>
+            </Field>
+        </Validation>
+        <Validation>
+            <Field>
+                <FieldLabel>Author</FieldLabel>
+                <FieldBody>
+                    <Select @bind-SelectedValue="quoteCreation.AuthorId">
+                        <ChildContent>
+                            <SelectItem Disabled>Author auswählen</SelectItem>
+                            @foreach (var author in authors)
+                            {
+                                <SelectItem Value="@author.Id">@author.Name</SelectItem>
+                            }
+                        </ChildContent>
+                        <Feedback>
+                            <ValidationError />
+                        </Feedback>
+                    </Select>
+                </FieldBody>
+            </Field>
+        </Validation>
+        <Button Color="Color.Primary" Clicked="@CreateQuote">Hinzufügen</Button>
+    </Validations>
+</Container>
 @code {
+    private Validations? validations;
     private QuoteCreation quoteCreation = new QuoteCreation();
-    private void CreateQuote()
+    private IEnumerable<Author> authors;
+    protected override void OnInitialized()
     {
-        QuotesContext.Add(new Quote
-            {
-                Text = quoteCreation.Text,
-                AuthorId = quoteCreation.AuthorId.Value,
-                DateOfQuote = DateTime.Today,
-                Id = Guid.NewGuid(),
-            });
-        QuotesContext.SaveChanges();
+        authors = QuotesContext.Authors.ToList();
+        StateHasChanged();
+    }
+
+    private async Task CreateQuote()
+    {
+        if (await validations.ValidateAll())
+        {
+            QuotesContext.Add(new Quote
+                {
+                    Text = quoteCreation.Text,
+                    AuthorId = quoteCreation.AuthorId.Value,
+                    DateOfQuote = DateTime.Today,
+                    Id = Guid.NewGuid(),
+                });
+            await QuotesContext.SaveChangesAsync();
+        }
     }
 }

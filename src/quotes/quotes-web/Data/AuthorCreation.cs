@@ -4,7 +4,7 @@ namespace quotes_web.Data
 {
     public class AuthorCreation
     {
-        [Required]
+        [Required(ErrorMessage = "Name ist erforderlich")]
         [StringLength(255, ErrorMessage = "Name zu lang")]
         public string? Name { get; set; }
     }
