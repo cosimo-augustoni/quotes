@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using quotes_web.Data;
 
@@ -11,9 +12,11 @@ using quotes_web.Data;
 namespace quotesweb.Migrations
 {
     [DbContext(typeof(QuotesContext))]
-    partial class QuotesContextModelSnapshot : ModelSnapshot
+    [Migration("20221222171950_AddFileTable")]
+    partial class AddFileTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -50,10 +53,6 @@ namespace quotesweb.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Base64Data")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("FileType")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -94,13 +93,13 @@ namespace quotesweb.Migrations
 
             modelBuilder.Entity("quotes_web.Data.Author", b =>
                 {
-                    b.HasOne("quotes_web.Data.File", "File")
+                    b.HasOne("quotes_web.Data.File", "Portrait")
                         .WithOne()
                         .HasForeignKey("quotes_web.Data.Author", "FileId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("File");
+                    b.Navigation("Portrait");
                 });
 
             modelBuilder.Entity("quotes_web.Data.Quote", b =>

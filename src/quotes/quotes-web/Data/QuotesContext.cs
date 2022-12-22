@@ -25,8 +25,17 @@ public class QuotesContext : DbContext
             .HasForeignKey(q => q.AuthorId);
 
         var authorBuilder = modelBuilder.Entity<Author>().ToTable("Author");
-        authorBuilder.HasKey(q => q.Id);
+        authorBuilder.HasKey(a => a.Id);
         authorBuilder.Property(a => a.Name);
+        authorBuilder.HasOne(a => a.File)
+          .WithOne()
+          .HasForeignKey<Author>(a => a.FileId);
+
+        var fileBuilder = modelBuilder.Entity<File>().ToTable("File");
+        fileBuilder.HasKey(f => f.Id);
+        fileBuilder.Property(f => f.Name);
+        fileBuilder.Property(f => f.Base64Data);
+        fileBuilder.Property(f => f.FileType);
 
         base.OnModelCreating(modelBuilder);
     }

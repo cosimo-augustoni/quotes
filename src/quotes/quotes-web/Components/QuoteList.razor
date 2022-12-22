@@ -3,11 +3,12 @@
 @inject QuotesContext QuotesContext
 
 <ul class="quote-list">
-    @foreach (var quote in QuotesContext.Quotes!.Include(q => q.Author).OrderByDescending(i => i.DateOfQuote))
+    @foreach (var quote in QuotesContext.Quotes!.Include(q => q.Author).ThenInclude(a => a.File).OrderByDescending(i => i.DateOfQuote))
     {
         <li>
             <Card>
                 <CardBody>
+                    <CardImage  Source="@GetSource(quote.Author.File)" Alt="Placeholder image"></CardImage>
                     <CardTitle Size="5">@quote.Text</CardTitle>
                     <CardText>
                         @quote.Author?.Name - <small>@quote.DateOfQuote.ToShortDateString()</small>
@@ -34,5 +35,9 @@
         var quote = QuotesContext.Quotes.Find(id);
         QuotesContext.Remove(quote);
         QuotesContext.SaveChanges();
+    }
+    private string GetSource(File file)
+    {
+        return $"data:{file.FileType};base64,{file.Base64Data}";
     }
 }

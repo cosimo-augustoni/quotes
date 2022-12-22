@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using quotes_web.Data;
 
@@ -11,9 +12,11 @@ using quotes_web.Data;
 namespace quotesweb.Migrations
 {
     [DbContext(typeof(QuotesContext))]
-    partial class QuotesContextModelSnapshot : ModelSnapshot
+    [Migration("20221222181218_AddFileTypeField")]
+    partial class AddFileTypeField
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
