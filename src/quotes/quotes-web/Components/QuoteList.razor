@@ -7,8 +7,8 @@
     {
         <li>
             <Card>
+                <CardImage Source="@GetSource(quote.Author.File)" Alt="Placeholder image"></CardImage>
                 <CardBody>
-                    <CardImage  Source="@GetSource(quote.Author.File)" Alt="Placeholder image"></CardImage>
                     <CardTitle Size="5">@quote.Text</CardTitle>
                     <CardText>
                         @quote.Author?.Name - <small>@quote.DateOfQuote.ToShortDateString()</small>
