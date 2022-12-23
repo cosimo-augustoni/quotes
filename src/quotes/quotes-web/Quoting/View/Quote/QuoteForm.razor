@@ -1,5 +1,4 @@
-﻿@inject QuotesContext QuotesContext
-<Container Fluid>
+﻿<Container Fluid>
     <Validations @ref="validations" Model="@quoteCreation" Mode="ValidationMode.Manual">
         <Validation>
             <Field>
@@ -47,28 +46,3 @@
         <Button Color="Color.Primary" Clicked="@CreateQuote">Hinzufügen</Button>
     </Validations>
 </Container>
-@code {
-    private Validations? validations;
-    private QuoteCreation quoteCreation = new QuoteCreation();
-    private IEnumerable<Author> authors;
-    protected override void OnInitialized()
-    {
-        authors = QuotesContext.Authors.ToList();
-        StateHasChanged();
-    }
-
-    private async Task CreateQuote()
-    {
-        if (await validations.ValidateAll())
-        {
-            QuotesContext.Add(new Quote
-                {
-                    Text = quoteCreation.Text,
-                    AuthorId = quoteCreation.AuthorId.Value,
-                    DateOfQuote = quoteCreation.DateOfQuote.Value,
-                    Id = Guid.NewGuid(),
-                });
-            await QuotesContext.SaveChangesAsync();
-        }
-    }
-}

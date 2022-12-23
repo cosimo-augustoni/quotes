@@ -1,0 +1,22 @@
+﻿.u-flex {
+    margin: 0 1rem;
+    display: flex;
+}
+
+.add-button .dropdown {
+    position: fixed;
+    bottom: 1rem;
+    right: 1rem;
+}
+
+.add-button .dropdown-toggle::after {
+    display: none;
+}
+
+.add-button .dropdown-menu {
+    min-width: auto;
+}
+
+.add-button .dropdown-item {
+    padding: 0.6em;
+}

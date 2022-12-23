@@ -1,6 +1,4 @@
-﻿@inject QuotesContext QuotesContext
-
-<ul>
+﻿<ul>
     @foreach (var author in QuotesContext.Authors)
     {
         <li>
@@ -14,15 +12,3 @@
         </li>
     }
 </ul>
-
-@code {
-    [Parameter]
-    public bool ShowDelete { get; set; }
-
-    private void DeleteAuthor(Guid id)
-    {
-        var author = QuotesContext.Authors.Find(id);
-        QuotesContext.Remove(author);
-        QuotesContext.SaveChanges();
-    }
-}

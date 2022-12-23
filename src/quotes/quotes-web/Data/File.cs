@@ -8,4 +8,6 @@ public class File
     public required string Base64Data { get; init; }
     public required string FileType { get; init; }
 
+    public string ToImgSourceString() => $"data:{this.FileType};base64,{this.Base64Data}";
+
 }

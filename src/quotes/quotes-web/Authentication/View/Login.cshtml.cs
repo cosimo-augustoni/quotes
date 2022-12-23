@@ -1,8 +1,7 @@
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace quotes_web.Pages
+namespace quotes_web.Authentication.View
 {
     public class LoginModel : PageModel
     {

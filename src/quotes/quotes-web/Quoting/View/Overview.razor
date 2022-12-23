@@ -1,0 +1,38 @@
+﻿@page "/"
+@using quotes_web.Quoting.View.Quote
+@using quotes_web.Quoting.View.Author
+
+<AuthorizeView>
+    <Authorized>
+        <div>
+            @if (context.User.IsAdmin())
+            {
+                <ImportForm></ImportForm>
+            }
+            <div class="u-flex">
+                <QuoteList ShowDelete="context.User.IsAdmin()"></QuoteList>
+            </div>
+            <div class="u-flex">
+                <AuthorList ShowDelete="context.User.IsAdmin()"></AuthorList>
+            </div>
+            <div class="add-button">
+                <Dropdown>
+                    <DropdownToggle Color="Color.Primary">
+                        <Icon Name="IconName.Add" IconStyle="IconStyle.Solid" IconSize="IconSize.Large" />
+                    </DropdownToggle>
+                    <DropdownMenu>
+                        <DropdownItem>
+                            <Icon Clicked="NavigateToAuthorCreation" Name="IconName.Users" IconStyle="IconStyle.Solid" IconSize="IconSize.Large" />
+                        </DropdownItem>
+                        <DropdownItem>
+                            <Icon Clicked="NavigateToQuoteCreation" Name="IconName.QuoteRight" IconStyle="IconStyle.Solid" IconSize="IconSize.Large" />
+                        </DropdownItem>
+                    </DropdownMenu>
+                </Dropdown>
+            </div>
+        </div>
+    </Authorized>
+    <NotAuthorized>
+        <p>Not Authorized</p>
+    </NotAuthorized>
+</AuthorizeView>

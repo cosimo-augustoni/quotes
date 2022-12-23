@@ -9,9 +9,9 @@ public class QuotesContext : DbContext
     {
     }
 
-    public DbSet<Quote>? Quotes { get; set; }
+    public DbSet<Quote> Quotes { get; set; } = default!;
 
-    public DbSet<Author>? Authors { get; set; }
+    public DbSet<Author> Authors { get; set; } = default!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
