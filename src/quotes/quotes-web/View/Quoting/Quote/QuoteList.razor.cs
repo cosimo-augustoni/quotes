@@ -14,9 +14,6 @@ namespace quotes_web.View.Quoting.Quote
 
         private ICollection<Persistence.Quoting.Quote> Quotes { get; set; } = new List<Persistence.Quoting.Quote>();
 
-        [Parameter]
-        public bool ShowDelete { get; set; }
-
         protected override async Task OnInitializedAsync()
         {
             await this.LoadQuotesAsync();

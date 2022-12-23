@@ -1,4 +1,5 @@
 ﻿@using Microsoft.EntityFrameworkCore;
+
 <div class="quote-list">
     <Virtualize Items="@Quotes" Context="quote">
         <Card Class="quote">
@@ -8,13 +9,11 @@
                 <CardText>
                     @quote.Author?.Name - <small>@quote.DateOfQuote.ToShortDateString()</small>
                 </CardText>
-
-                @if (ShowDelete)
-                {
+                <AuthorizeView Policy="@QuotesPolicies.IsAdmin">
                     <Button Clicked="() => DeleteQuoteAsync(quote.Id)">
                         <Icon Name="IconName.Delete" IconStyle="IconStyle.Solid" TextColor="TextColor.Danger" />
                     </Button>
-                }
+                </AuthorizeView>
             </CardBody>
         </Card>
     </Virtualize>

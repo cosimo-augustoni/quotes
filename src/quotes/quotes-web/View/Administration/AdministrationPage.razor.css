@@ -1,5 +1,6 @@
-﻿.list-wrapper {
+﻿.u-flex {
     margin: 0 1rem;
+    display: flex;
 }
 .add-button {
     position: absolute;

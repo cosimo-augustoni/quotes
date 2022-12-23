@@ -13,9 +13,6 @@ namespace quotes_web.View.Quoting.Author
 
         private IReadOnlyCollection<Persistence.Quoting.Author> Authors { get; set; } = new List<Persistence.Quoting.Author>();
 
-        [Parameter]
-        public bool ShowDelete { get; set; }
-
         protected override async Task OnInitializedAsync()
         {
             await this.LoadAuthorsAsync();

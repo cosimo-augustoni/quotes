@@ -3,12 +3,9 @@
     {
         <li>
             @author.Name
-            @if (ShowDelete)
-            {
-                <Button Clicked="async () => await DeleteAuthorAsync(author.Id)">
-                    <Icon Name="IconName.Delete" IconStyle="IconStyle.Solid" TextColor="TextColor.Danger" />
-                </Button>
-            }
+            <Button Clicked="async () => await DeleteAuthorAsync(author.Id)">
+                <Icon Name="IconName.Delete" IconStyle="IconStyle.Solid" TextColor="TextColor.Danger" />
+            </Button>
         </li>
     }
 </ul>

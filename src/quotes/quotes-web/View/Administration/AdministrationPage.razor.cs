@@ -2,7 +2,7 @@
 
 namespace quotes_web.View.Quoting
 {
-    public partial class OverviewPage : ComponentBase
+    public partial class AdministrationPage : ComponentBase
     {
     }
 }
