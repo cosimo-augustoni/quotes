@@ -12,6 +12,8 @@ namespace quotes_web.View.Quoting.Quote
         [Inject]
         private IQuoteService QuoteService { get; set; } = default!;
 
+        private ConfirmationModal? modalRef;
+        private Func<Task> subscription;
         private ICollection<Persistence.Quoting.Quote> Quotes { get; set; } = new List<Persistence.Quoting.Quote>();
 
         protected override async Task OnInitializedAsync()
@@ -24,17 +26,26 @@ namespace quotes_web.View.Quoting.Quote
         {
             var quotes = await this.QuoteReadOnlyService.GetQuotesAsync();
             this.Quotes = quotes.OrderByDescending(q => q.DateOfQuote).ToList();
+            StateHasChanged();
         }
 
-        private async Task DeleteQuoteAsync(Guid id)
+        private async Task DeleteQuoteAsync(Guid quoteId)
         {
-            await this.QuoteService.DeleteQuoteAsync(id);
+            await this.QuoteService.DeleteQuoteAsync(quoteId);
             await this.LoadQuotesAsync();
+            modalRef.OnConfirm -= subscription;
         }
 
         private string GetImagePath(File file)
         {
             return $"/images/{file.FileName}";
+        }
+
+        private Task ShowModal(Guid quoteId)
+        {
+            subscription = async () => await DeleteQuoteAsync(quoteId);
+            modalRef.OnConfirm += subscription;
+            return modalRef.ShowModal();
         }
     }
 }

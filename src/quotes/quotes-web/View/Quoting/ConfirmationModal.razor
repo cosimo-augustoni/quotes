@@ -1,0 +1,15 @@
+﻿<Modal @ref="modalRef">
+    <ModalContent Centered>
+        <ModalHeader>
+            <ModalTitle>Löschen bestätigen</ModalTitle>
+            <CloseButton />
+        </ModalHeader>
+        <ModalBody>
+            Wollen Sie wirklich löschen?
+        </ModalBody>
+        <ModalFooter>
+            <Button Color="Color.Secondary" Clicked="HideModal">Abbrechen</Button>
+            <Button Color="Color.Danger" Clicked="OnConfirmation">Löschen</Button>
+        </ModalFooter>
+    </ModalContent>
+</Modal>

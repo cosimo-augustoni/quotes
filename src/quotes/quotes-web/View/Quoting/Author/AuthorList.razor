@@ -1,12 +1,14 @@
-﻿<Virtualize Items="@Authors" Context="author">
+﻿<div class="author-list">
+<Virtualize Items="@Authors" Context="author">
     <Card Class="quote">
         <CardImage Source="@GetImagePath(author.File!)" Alt="No Image"></CardImage>
         <CardBody>
             <CardTitle Size="5">@author.Name</CardTitle>
-            <Button Clicked="async () => await DeleteAuthorAsync(author.Id)">
-                <Icon Name="IconName.Delete" IconStyle="IconStyle.Solid" TextColor="TextColor.Danger" />
+            <Button Color="Color.Danger" Style="top:1rem;right:1rem;" Position="Position.Absolute" Clicked="() => ShowModal(author.Id)">
+                <Icon Name="IconName.Delete" IconStyle="IconStyle.Solid" TextColor="TextColor.White" />
             </Button>
             <FileEdit Changed="async e => await OnChangedAsync(e, author.Id)"></FileEdit>
         </CardBody>
     </Card>
-</Virtualize>
+</Virtualize></div>
+<ConfirmationModal @ref="modalRef"></ConfirmationModal>

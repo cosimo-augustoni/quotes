@@ -5,10 +5,10 @@
 
 <AuthorizeView Policy="@QuotesPolicies.IsAdmin">
     <Authorized>
-        <div class="u-flex">
+        <Div Flex="Flex.Column">
             <ImportForm></ImportForm>
             <AuthorList></AuthorList>
-        </div>
+        </Div>
     </Authorized>
     <NotAuthorized>
         <p>Not Authorized</p>

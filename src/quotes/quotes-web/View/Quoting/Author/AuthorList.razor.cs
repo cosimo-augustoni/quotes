@@ -18,6 +18,8 @@ namespace quotes_web.View.Quoting.Author
 
         private ICollection<Persistence.Quoting.Author> Authors { get; set; } = new List<Persistence.Quoting.Author>();
 
+        private ConfirmationModal? modalRef;
+        private Func<Task> subscription;
         protected override async Task OnInitializedAsync()
         {
             await this.LoadAuthorsAsync();
@@ -28,12 +30,14 @@ namespace quotes_web.View.Quoting.Author
         {
             var authors = await this.AuthorReadOnlyService.GetAuthorsAsync();
             this.Authors = authors.OrderBy(a => a.Name).ToList();
+            StateHasChanged();
         }
 
         private async Task DeleteAuthorAsync(Guid id)
         {
             await this.AuthorService.DeleteAuthorAsync(id);
             await this.LoadAuthorsAsync();
+            modalRef.OnConfirm -= subscription;
         }
 
         private string GetImagePath(File file)
@@ -48,6 +52,12 @@ namespace quotes_web.View.Quoting.Author
                 return;
 
             await this.AuthorService.UpdateAuthorImageAsync(authorId, fileCreation.FileEntry);
+        }
+        private Task ShowModal(Guid authorId)
+        {
+            subscription = async () => await DeleteAuthorAsync(authorId);
+            modalRef.OnConfirm += subscription;
+            return modalRef.ShowModal();
         }
     }
 }

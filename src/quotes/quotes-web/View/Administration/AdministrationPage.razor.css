@@ -1,8 +1,4 @@
-﻿.u-flex {
-    margin: 0 1rem;
-    display: flex;
-}
-.add-button {
+﻿.add-button {
     position: absolute;
     right: 0;
     bottom: 0;
