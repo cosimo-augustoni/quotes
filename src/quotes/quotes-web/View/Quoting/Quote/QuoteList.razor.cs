@@ -13,7 +13,7 @@ namespace quotes_web.View.Quoting.Quote
         [Inject] 
         private IQuoteService QuoteService { get; set; } = default!;
 
-        private IReadOnlyCollection<Persistence.Quoting.Quote> Quotes { get; set; } = new List<Persistence.Quoting.Quote>();
+        private ICollection<Persistence.Quoting.Quote> Quotes { get; set; } = new List<Persistence.Quoting.Quote>();
 
         [Parameter]
         public bool ShowDelete { get; set; }
@@ -26,7 +26,8 @@ namespace quotes_web.View.Quoting.Quote
 
         private async Task LoadQuotesAsync()
         {
-            this.Quotes = await this.QuoteReadOnlyService.GetQuotesAsync();
+            var quotes = await this.QuoteReadOnlyService.GetQuotesAsync();
+            this.Quotes = quotes.OrderByDescending(q => q.DateOfQuote).ToList();
         }
 
         private async Task DeleteQuoteAsync(Guid id)

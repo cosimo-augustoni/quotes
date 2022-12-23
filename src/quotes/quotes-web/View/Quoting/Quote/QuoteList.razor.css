@@ -1,9 +1,10 @@
-﻿ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: grid;
-    flex-wrap: wrap;
-    gap: 1rem;
+﻿.quote-list {
+    display: flex;
+    height: 80vh;
+    overflow-y: scroll;
+    flex-direction: row;
 }
 
+.quote {
+    height: 400px;
+}

@@ -1,24 +1,21 @@
 ﻿@using Microsoft.EntityFrameworkCore;
-<ul class="quote-list">
-    @foreach (var quote in Quotes.OrderByDescending(i => i.DateOfQuote))
-    {
-        <li>
-            <Card>
-                <CardImage Source="@GetImagePath(quote.Author.File)" Alt="Placeholder image"></CardImage>
-                <CardBody>
-                    <CardTitle Size="5">@quote.Text</CardTitle>
-                    <CardText>
-                        @quote.Author?.Name - <small>@quote.DateOfQuote.ToShortDateString()</small>
-                    </CardText>
+<div class="quote-list">
+    <Virtualize Items="@Quotes" Context="quote">
+        <Card Class="quote">
+            <CardImage Source="@GetImagePath(quote.Author.File)" Alt="Placeholder image"></CardImage>
+            <CardBody>
+                <CardTitle Size="5">@quote.Text</CardTitle>
+                <CardText>
+                    @quote.Author?.Name - <small>@quote.DateOfQuote.ToShortDateString()</small>
+                </CardText>
 
-                    @if (ShowDelete)
-                    {
-                        <Button Clicked="() => DeleteQuoteAsync(quote.Id)">
-                            <Icon Name="IconName.Delete" IconStyle="IconStyle.Solid" TextColor="TextColor.Danger" />
-                        </Button>
-                    }
-                </CardBody>
-            </Card>
-        </li>
-    }
-</ul>
+                @if (ShowDelete)
+                {
+                    <Button Clicked="() => DeleteQuoteAsync(quote.Id)">
+                        <Icon Name="IconName.Delete" IconStyle="IconStyle.Solid" TextColor="TextColor.Danger" />
+                    </Button>
+                }
+            </CardBody>
+        </Card>
+    </Virtualize>
+</div>
