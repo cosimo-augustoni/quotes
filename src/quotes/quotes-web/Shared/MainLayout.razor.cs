@@ -14,12 +14,17 @@ namespace quotes_web.Shared
 
         private void NavigateToLogout()
         {
-            this.NavigationManager.NavigateTo("logout");
+            this.NavigationManager.NavigateTo("logout", forceLoad: true);
         }
 
         private void NavigateToOverview()
         {
             this.NavigationManager.NavigateTo("");
+        }
+
+        private void NavigateToLogin()
+        {
+            this.NavigationManager.NavigateTo("login?redirectUri=/", forceLoad: true );
         }
     }
 }
