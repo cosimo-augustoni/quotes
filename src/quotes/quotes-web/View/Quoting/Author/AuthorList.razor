@@ -1,11 +1,12 @@
-﻿<ul>
-    @foreach (var author in Authors.OrderBy(a => a.Name))
-    {
-        <li>
-            @author.Name
+﻿<Virtualize Items="@Authors" Context="author">
+    <Card Class="quote">
+        <CardImage Source="@GetImagePath(author.File!)" Alt="No Image"></CardImage>
+        <CardBody>
+            <CardTitle Size="5">@author.Name</CardTitle>
             <Button Clicked="async () => await DeleteAuthorAsync(author.Id)">
                 <Icon Name="IconName.Delete" IconStyle="IconStyle.Solid" TextColor="TextColor.Danger" />
             </Button>
-        </li>
-    }
-</ul>
+            <FileEdit Changed="async e => await OnChangedAsync(e, author.Id)"></FileEdit>
+        </CardBody>
+    </Card>
+</Virtualize>

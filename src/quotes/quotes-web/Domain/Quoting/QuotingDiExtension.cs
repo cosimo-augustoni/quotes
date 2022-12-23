@@ -14,6 +14,7 @@ namespace quotes_web.Domain.Quoting
 
             services.AddTransient<IAuthorReadOnlyService, AuthorReadOnlyService>();
             services.AddTransient<IAuthorService, AuthorService>();
+            services.AddTransient<IImageFileService, ImageFileService>();
 
             return services;
         }

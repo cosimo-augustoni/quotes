@@ -3,7 +3,7 @@
 <div class="quote-list">
     <Virtualize Items="@Quotes" Context="quote">
         <Card Class="quote">
-            <CardImage Source="@GetImagePath(quote.Author.File)" Alt="Placeholder image"></CardImage>
+            <CardImage Source="@GetImagePath(quote.Author.File)" Alt="No Image"></CardImage>
             <CardBody>
                 <CardTitle Size="5">@quote.Text</CardTitle>
                 <CardText>

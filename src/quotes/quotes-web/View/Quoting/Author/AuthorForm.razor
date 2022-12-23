@@ -1,30 +1,18 @@
 ﻿
 <Container Fluid>
-    <Validations @ref="validations" Model="@authorCreation" Mode="ValidationMode.Manual">
-        <Validation>
             <Field>
                 <FieldLabel>Name</FieldLabel>
                 <FieldBody>
                     <MemoEdit Rows="2" @bind-Text="authorCreation.Name" Placeholder="Name eingeben">
-                        <Feedback>
-                            <ValidationError />
-                        </Feedback>
                     </MemoEdit>
                 </FieldBody>
             </Field>
-        </Validation>
-        <Validation Validator="ValidatePhoto">
             <Field>
                 <FieldLabel>Portrait</FieldLabel>
                 <FieldBody>
                     <FileEdit Changed="@OnChanged" DisableProgressReport Filter="image/*" Placeholder="Photo auswählen">
-                        <Feedback>
-                            <ValidationError>@fileValidationError</ValidationError>
-                        </Feedback>
                     </FileEdit>
                 </FieldBody>
             </Field>
-        </Validation>
         <Button Color="Color.Primary" Clicked="@CreateAuthor">Hinzufügen</Button>
-    </Validations>
 </Container>

@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using Blazorise;
+using Microsoft.AspNetCore.Components;
 using quotes_web.Domain.Quoting.Author;
+using File = quotes_web.Persistence.Quoting.File;
 
 namespace quotes_web.View.Quoting.Author
 {
@@ -11,7 +13,10 @@ namespace quotes_web.View.Quoting.Author
         [Inject] 
         private IAuthorService AuthorService { get; set; } = default!;
 
-        private IReadOnlyCollection<Persistence.Quoting.Author> Authors { get; set; } = new List<Persistence.Quoting.Author>();
+        [Inject]
+        private IImageFileService ImageFileService { get; set; } = default!;
+
+        private ICollection<Persistence.Quoting.Author> Authors { get; set; } = new List<Persistence.Quoting.Author>();
 
         protected override async Task OnInitializedAsync()
         {
@@ -21,13 +26,28 @@ namespace quotes_web.View.Quoting.Author
 
         private async Task LoadAuthorsAsync()
         {
-            this.Authors = await this.AuthorReadOnlyService.GetAuthorsAsync();
+            var authors = await this.AuthorReadOnlyService.GetAuthorsAsync();
+            this.Authors = authors.OrderBy(a => a.Name).ToList();
         }
 
         private async Task DeleteAuthorAsync(Guid id)
         {
             await this.AuthorService.DeleteAuthorAsync(id);
             await this.LoadAuthorsAsync();
+        }
+
+        private string GetImagePath(File file)
+        {
+            return $"/images/{file.FileName}";
+        }
+
+        private async Task OnChangedAsync(FileChangedEventArgs e, Guid authorId)
+        {
+            var fileCreation = this.ImageFileService.GetFileCreationFromEvent(e);
+            if (fileCreation == null)
+                return;
+
+            await this.AuthorService.UpdateAuthorImageAsync(authorId, fileCreation.FileEntry);
         }
     }
 }

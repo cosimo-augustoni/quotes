@@ -12,65 +12,26 @@ namespace quotes_web.View.Quoting.Author
         [Inject]
         private NavigationManager NavigationManager { get; set; } = default!;
 
-        private Validations? validations;
+        [Inject]
+        private IImageFileService ImageFileService { get; set; } = default!;
+
         private AuthorCreation authorCreation = new AuthorCreation();
-        private string? fileValidationError;
-        private static readonly string FileIsToLarge = "Bild ist zu gross";
-        private static readonly string FileIsRequired = "Bild ist erforderlich";
-        private static readonly int FiveMb = 1024 * 1024 * 5;
 
         private async Task CreateAuthor()
         {
-            if (await this.validations.ValidateAll())
-            {
-                await this.AuthorService.AddAuthorAsync(this.authorCreation);
-                this.NavigationManager.NavigateTo("/");
-            }
+            await this.AuthorService.AddAuthorAsync(this.authorCreation);
+            this.NavigationManager.NavigateTo("/");
         }
 
-        private void ValidatePhoto(ValidatorEventArgs e)
+        private void OnChanged(FileChangedEventArgs e)
         {
-            if (e.Value == null)
-            {
-                this.fileValidationError = FileIsRequired;
-            }
-            e.Status = string.IsNullOrEmpty(this.fileValidationError) ? ValidationStatus.Success : ValidationStatus.Error;
+            var fileCreation = this.ImageFileService.GetFileCreationFromEvent(e);
+            if (fileCreation == null)
+                return;
+
+            this.authorCreation.FileCreation = fileCreation;
         }
 
 
-        private async Task OnChanged(FileChangedEventArgs e)
-        {
-            try
-            {
-                var file = e.Files.FirstOrDefault();
-                if (file == null)
-                {
-                    return;
-                }
-                if (file.Size > FiveMb)
-                {
-                    this.fileValidationError = FileIsToLarge;
-                    return;
-                }
-
-                var fileCreation = new FileCreation
-                {
-                    Name = file.Name,
-                    FileType = file.Type,
-                    FileEntry = file
-                };
-                this.authorCreation.FileCreation = fileCreation;
-
-                this.fileValidationError = "";
-            }
-            catch (Exception exc)
-            {
-                Console.WriteLine(exc.Message);
-            }
-            finally
-            {
-                this.StateHasChanged();
-            }
-        }
     }
 }
