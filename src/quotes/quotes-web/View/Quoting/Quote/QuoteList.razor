@@ -14,7 +14,7 @@
                     @quote.Author?.Name - <small>@quote.DateOfQuote.ToShortDateString()</small>
                 </CardText>
                 <AuthorizeView Policy="@QuotesPolicies.IsAdmin">
-                    <Button Color="Color.Danger" Style="top:1rem;right:1rem;" Position="Position.Absolute" Clicked="async () => await DeleteQuoteAsync(quote.Id)">
+                    <Button Color="Color.Danger" Style="top:1rem;right:1rem;" Position="Position.Absolute" Clicked="() => ShowModal(quote.Id)">
                         <Icon Name="IconName.Delete" IconStyle="IconStyle.Solid" TextColor="TextColor.White" />
                     </Button>
                 </AuthorizeView>
@@ -22,3 +22,4 @@
         </Card>
     </Virtualize>
 </div>
+<ConfirmationModal @ref="modalRef" ConfirmationCallBack="DeleteQuoteAsync"></ConfirmationModal>
