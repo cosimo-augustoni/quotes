@@ -1,4 +1,6 @@
-﻿namespace quotes_web.Data.Import
+﻿using quotes_web.Persistence.Quoting;
+
+namespace quotes_web.Data.Import
 {
     public class ImportContainer
     {

@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using quotes_web.Data;
+using quotes_web.Persistence.Quoting;
 
 #nullable disable
 
@@ -22,7 +22,7 @@ namespace quotesweb.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("quotes_web.Data.Author", b =>
+            modelBuilder.Entity("quotes_web.Persistence.Quoting.Author", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -43,15 +43,11 @@ namespace quotesweb.Migrations
                     b.ToTable("Author", (string)null);
                 });
 
-            modelBuilder.Entity("quotes_web.Data.File", b =>
+            modelBuilder.Entity("quotes_web.Persistence.Quoting.File", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Base64Data")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FileType")
                         .IsRequired()
@@ -66,7 +62,7 @@ namespace quotesweb.Migrations
                     b.ToTable("File", (string)null);
                 });
 
-            modelBuilder.Entity("quotes_web.Data.Quote", b =>
+            modelBuilder.Entity("quotes_web.Persistence.Quoting.Quote", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -92,20 +88,20 @@ namespace quotesweb.Migrations
                     b.ToTable("Quote", (string)null);
                 });
 
-            modelBuilder.Entity("quotes_web.Data.Author", b =>
+            modelBuilder.Entity("quotes_web.Persistence.Quoting.Author", b =>
                 {
-                    b.HasOne("quotes_web.Data.File", "File")
+                    b.HasOne("quotes_web.Persistence.Quoting.File", "File")
                         .WithOne()
-                        .HasForeignKey("quotes_web.Data.Author", "FileId")
+                        .HasForeignKey("quotes_web.Persistence.Quoting.Author", "FileId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("File");
                 });
 
-            modelBuilder.Entity("quotes_web.Data.Quote", b =>
+            modelBuilder.Entity("quotes_web.Persistence.Quoting.Quote", b =>
                 {
-                    b.HasOne("quotes_web.Data.Author", "Author")
+                    b.HasOne("quotes_web.Persistence.Quoting.Author", "Author")
                         .WithMany("Quotes")
                         .HasForeignKey("AuthorId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -114,7 +110,7 @@ namespace quotesweb.Migrations
                     b.Navigation("Author");
                 });
 
-            modelBuilder.Entity("quotes_web.Data.Author", b =>
+            modelBuilder.Entity("quotes_web.Persistence.Quoting.Author", b =>
                 {
                     b.Navigation("Quotes");
                 });

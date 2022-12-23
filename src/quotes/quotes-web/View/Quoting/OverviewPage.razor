@@ -22,12 +22,8 @@
                         <Icon Name="IconName.Add" IconStyle="IconStyle.Solid" IconSize="IconSize.Large" />
                     </DropdownToggle>
                     <DropdownMenu>
-                        <DropdownItem>
-                            <Icon Clicked="NavigateToAuthorCreation" Name="IconName.Users" IconStyle="IconStyle.Solid" IconSize="IconSize.Large" />
-                        </DropdownItem>
-                        <DropdownItem>
-                            <Icon Clicked="NavigateToQuoteCreation" Name="IconName.QuoteRight" IconStyle="IconStyle.Solid" IconSize="IconSize.Large" />
-                        </DropdownItem>
+                        <DropdownItem Clicked="NavigateToAuthorCreation">Author</DropdownItem>
+                        <DropdownItem Clicked="NavigateToQuoteCreation">Quote</DropdownItem>
                     </DropdownMenu>
                 </Dropdown>
             </div>

@@ -1,12 +1,10 @@
 using Blazorise;
 using Blazorise.Bootstrap;
 using Blazorise.Icons.FontAwesome;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication.OpenIdConnect;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
-using quotes_web.Data;
+using Microsoft.Extensions.FileProviders;
 using quotes_web.Domain.Authentication;
+using quotes_web.Domain.Quoting;
+using quotes_web.Persistence.Quoting;
 
 namespace quotes_web
 {
@@ -16,7 +14,13 @@ namespace quotes_web
         {
             var builder = WebApplication.CreateBuilder(args);
             builder.Configuration.AddJsonFile("/config.json");
-            ConfigureServices(builder.Services, builder.Configuration);
+            builder.Services.AddRazorPages(opt => opt.RootDirectory = "/View");
+            builder.Services.AddServerSideBlazor();
+            builder.Services.AddBlazorise()
+                .AddBootstrapProviders()
+                .AddFontAwesomeIcons();
+            builder.Services.AddQuoting(builder.Configuration);
+            builder.Services.AddAuthentication(builder.Configuration);
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -25,6 +29,20 @@ namespace quotes_web
                 app.UseExceptionHandler("/Error");
             }
 
+
+            var imagePath = Path.Combine(Directory.GetCurrentDirectory(), "images");
+            Directory.CreateDirectory(imagePath);
+            var staticFileOptions = new StaticFileOptions
+            {
+                RequestPath = "/images",
+                OnPrepareResponse = context =>
+                {
+                    context.Context.Response.Headers.Add("cache-control", new[] { "public,max-age=86400" });
+                    context.Context.Response.Headers.Add("Expires", new[] { DateTime.UtcNow.AddDays(1).ToString("R") });
+                },
+                FileProvider = new PhysicalFileProvider(imagePath)
+            };
+            app.UseStaticFiles(staticFileOptions);
             app.UseStaticFiles();
 
             app.UseRouting();
@@ -47,55 +65,6 @@ namespace quotes_web
             using var serviceScope = serviceScopeFactory.CreateScope();
             using var context = serviceScope.ServiceProvider.GetRequiredService<QuotesContext>();
             context.Database.EnsureCreated();
-        }
-
-        public static void ConfigureServices(IServiceCollection services, ConfigurationManager configurationManager)
-        {
-            services.AddRazorPages(opt => opt.RootDirectory = "/View");
-            services.AddServerSideBlazor();
-            services.AddBlazorise()
-                .AddBootstrapProviders()
-                .AddFontAwesomeIcons();
-            AddAuthentication(services, configurationManager);
-
-            services.AddDbContext<QuotesContext>(opt => opt.UseSqlServer(configurationManager.GetConnectionString("quotes")));
-        }
-
-        private static void AddAuthentication(IServiceCollection services, ConfigurationManager configurationManager)
-        {
-            var oidcConfiguration = configurationManager.GetRequiredSection("OIDC").Get<OIDCConfiguration>() ?? throw new ArgumentException("OIDC konnte nicht ausgelesen werden");
-            services.AddAuthentication(opt =>
-                {
-                    opt.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                    opt.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                    opt.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
-                })
-                .AddCookie().AddOpenIdConnect("oidc", options =>
-                {
-                    options.Authority = oidcConfiguration.Authority;
-                    options.ClientId = oidcConfiguration.ClientId;
-                    options.ClientSecret = oidcConfiguration.ClientSecret;
-                    options.ResponseType = "code";
-                    options.SaveTokens = true;
-                    options.GetClaimsFromUserInfoEndpoint = true;
-                    options.Scope.Add("openid");
-                    options.Scope.Add("profile");
-                    options.Scope.Add("groups");
-                    options.TokenValidationParameters = new TokenValidationParameters { NameClaimType = "name" };
-
-                    options.Events = new OpenIdConnectEvents
-                    {
-                        OnAccessDenied = context =>
-                        {
-                            context.HandleResponse();
-                            context.Response.Redirect("/");
-                            return Task.CompletedTask;
-                        }
-                    };
-
-                    options.NonceCookie.SecurePolicy = CookieSecurePolicy.Always;
-                    options.CorrelationCookie.SecurePolicy = CookieSecurePolicy.Always;
-                });
         }
     }
 }

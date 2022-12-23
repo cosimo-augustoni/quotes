@@ -1,11 +1,11 @@
 ﻿<ul>
-    @foreach (var author in QuotesContext.Authors)
+    @foreach (var author in Authors.OrderBy(a => a.Name))
     {
         <li>
             @author.Name
             @if (ShowDelete)
             {
-                <Button Clicked="() => DeleteAuthor(author.Id)">
+                <Button Clicked="async () => await DeleteAuthorAsync(author.Id)">
                     <Icon Name="IconName.Delete" IconStyle="IconStyle.Solid" TextColor="TextColor.Danger" />
                 </Button>
             }

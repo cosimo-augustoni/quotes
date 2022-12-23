@@ -31,7 +31,7 @@
                     <Select @bind-SelectedValue="quoteCreation.AuthorId">
                         <ChildContent>
                             <SelectItem Disabled>Author auswählen</SelectItem>
-                            @foreach (var author in authors)
+                            @foreach (var author in Authors)
                             {
                                 <SelectItem Value="@author.Id">@author.Name</SelectItem>
                             }

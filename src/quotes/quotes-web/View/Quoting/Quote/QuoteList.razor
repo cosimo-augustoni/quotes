@@ -1,10 +1,10 @@
 ﻿@using Microsoft.EntityFrameworkCore;
 <ul class="quote-list">
-    @foreach (var quote in QuotesContext.Quotes.Include(q => q.Author).ThenInclude(a => a.File).OrderByDescending(i => i.DateOfQuote))
+    @foreach (var quote in Quotes.OrderByDescending(i => i.DateOfQuote))
     {
         <li>
             <Card>
-                <CardImage Source="@quote.Author?.File?.ToImgSourceString()" Alt="Placeholder image"></CardImage>
+                <CardImage Source="@GetImagePath(quote.Author.File)" Alt="Placeholder image"></CardImage>
                 <CardBody>
                     <CardTitle Size="5">@quote.Text</CardTitle>
                     <CardText>
@@ -13,7 +13,7 @@
 
                     @if (ShowDelete)
                     {
-                        <Button Clicked="() => DeleteQuote(quote.Id)">
+                        <Button Clicked="() => DeleteQuoteAsync(quote.Id)">
                             <Icon Name="IconName.Delete" IconStyle="IconStyle.Solid" TextColor="TextColor.Danger" />
                         </Button>
                     }

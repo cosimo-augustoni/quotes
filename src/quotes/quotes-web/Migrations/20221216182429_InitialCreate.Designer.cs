@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using quotes_web.Data;
+using quotes_web.Persistence.Quoting;
 
 #nullable disable
 
