@@ -28,9 +28,6 @@ namespace quotes_web.Domain.Quoting.Author
             if (file == null)
                 return null;
 
-            if (file.Size > 1024 * 1024 * 5)
-                return null;
-
             var fileCreation = new FileCreation
             {
                 Name = file.Name,

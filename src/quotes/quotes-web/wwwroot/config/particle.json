@@ -1,7 +1,7 @@
 {
   "particles": {
     "number": {
-      "value": 80,
+      "value": 25,
       "density": {
         "enable": true,
         "value_area": 800
@@ -17,7 +17,7 @@
         "color": "#000000"
       },
       "polygon": {
-        "nb_sides": 5
+        "nb_sides": 8
       },
       "image": {
         "src": "img/github.svg",
@@ -82,13 +82,13 @@
     },
     "modes": {
       "grab": {
-        "distance": 800,
+        "distance": 1800,
         "line_linked": {
           "opacity": 1
         }
       },
       "bubble": {
-        "distance": 800,
+        "distance": 1800,
         "size": 80,
         "duration": 2,
         "opacity": 0.8,

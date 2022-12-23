@@ -19,8 +19,8 @@ namespace quotes_web.View.Quoting.Author
 
         private async Task CreateAuthor()
         {
-            await this.AuthorService.AddAuthorAsync(this.authorCreation);
-            this.NavigationManager.NavigateTo("/");
+            if (await this.AuthorService.AddAuthorAsync(this.authorCreation))
+                this.NavigationManager.NavigateTo("/");
         }
 
         private void OnChanged(FileChangedEventArgs e)

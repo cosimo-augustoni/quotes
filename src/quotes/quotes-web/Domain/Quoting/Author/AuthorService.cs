@@ -1,5 +1,5 @@
-﻿using Blazorise;
-using Imageflow.Fluent;
+﻿using Blazored.Toast.Services;
+using Blazorise;
 using Microsoft.EntityFrameworkCore;
 using quotes_web.Persistence.Quoting;
 
@@ -9,35 +9,47 @@ namespace quotes_web.Domain.Quoting.Author
     {
         private readonly IDbContextFactory<QuotesContext> dbContextFactory;
         private readonly IImageFileService imageFileService;
+        private readonly IToastService toastService;
 
-        public AuthorService(IDbContextFactory<QuotesContext> dbContextFactory, IImageFileService imageFileService)
+        public AuthorService(IDbContextFactory<QuotesContext> dbContextFactory, IImageFileService imageFileService, IToastService toastService)
         {
             this.dbContextFactory = dbContextFactory;
             this.imageFileService = imageFileService;
+            this.toastService = toastService;
         }
 
-        public async Task AddAuthorAsync(AuthorCreation authorCreation)
+        public async Task<bool> AddAuthorAsync(AuthorCreation authorCreation)
         {
-            //TODO Validation
+            if (!authorCreation.Validate(out var messages))
+            {
+                foreach (var message in messages)
+                {
+                    this.toastService.ShowError(message.Text, message.Title);
+                }
+                return false;
+            }
+
             var fileCreation = authorCreation.FileCreation;
             var file = new quotes_web.Persistence.Quoting.File
             {
                 Id = Guid.NewGuid(),
-                Name = fileCreation.Name,
-                FileType = fileCreation.FileType
+                Name = fileCreation.Name!,
+                FileType = fileCreation.FileType!
             };
             var author = new Persistence.Quoting.Author
             {
                 Id = Guid.NewGuid(),
-                Name = authorCreation.Name,
+                Name = authorCreation.Name!,
                 FileId = file.Id,
             };
-            await this.imageFileService.CreateImageFileAsync(file.FilePath, authorCreation.FileCreation.FileEntry);
+            await this.imageFileService.CreateImageFileAsync(file.FilePath, authorCreation.FileCreation.FileEntry!);
 
             await using var context = await this.dbContextFactory.CreateDbContextAsync();
             await context.AddAsync(file);
             await context.Authors.AddAsync(author);
             await context.SaveChangesAsync();
+
+            return true;
         }
 
         public async Task UpdateAuthorImageAsync(Guid authorId, IFileEntry fileEntry)

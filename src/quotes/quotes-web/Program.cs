@@ -1,3 +1,4 @@
+using Blazored.Toast;
 using Blazorise;
 using Blazorise.Bootstrap;
 using Blazorise.Icons.FontAwesome;
@@ -21,6 +22,7 @@ namespace quotes_web
                 .AddFontAwesomeIcons();
             builder.Services.AddQuoting(builder.Configuration);
             builder.Services.AddAuthentication(builder.Configuration);
+            builder.Services.AddBlazoredToast();
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

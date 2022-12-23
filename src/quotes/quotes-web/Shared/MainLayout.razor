@@ -2,9 +2,17 @@
 
 @using quotes_web.Domain.Authentication
 @using Blazorise
+@using Blazored.Toast
+@using Blazored.Toast.Configuration
 
 <PageTitle> Quotes 2.0</PageTitle>
 
+<BlazoredToasts Position="ToastPosition.TopRight"
+                Timeout="6"
+                IconType="IconType.FontAwesome"
+                SuccessIcon="fa fa-thumbs-up"
+                ErrorIcon="fa fa-bug" 
+                ShowProgressBar="true" />
 
 <AuthorizeView>
     <Authorized>
@@ -12,7 +20,7 @@
             <LayoutHeader Class="header-wrapper">
                 <h1 @onclick="NavigateToOverview">Quotes 2.0</h1>
                 <div>
-                    <AuthorizeView Context="DropdownCtx" Policy="@QuotesPolicies.IsAdmin">
+                    <AuthorizeView Context="dropdownCtx" Policy="@QuotesPolicies.IsAdmin">
                         <Button Color="Color.Warning" Clicked="NavigateToAdmin">Admin</Button>
                     </AuthorizeView>
                     <Button Color="Color.Secondary" Clicked="NavigateToLogout">Logout</Button>
