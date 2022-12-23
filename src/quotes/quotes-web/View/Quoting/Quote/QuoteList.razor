@@ -3,15 +3,19 @@
 <div class="quote-list">
     <Virtualize Items="@Quotes" Context="quote">
         <Card Class="quote">
-            <CardImage Source="@GetImagePath(quote.Author.File)" Alt="No Image"></CardImage>
+            <CardImage Source="@GetImagePath(quote.Author.File)" Alt="No Image">
+            </CardImage>
             <CardBody>
-                <CardTitle Size="5">@quote.Text</CardTitle>
+                <CardTitle Size="5">
+                    @quote.Text
+
+                </CardTitle>
                 <CardText>
                     @quote.Author?.Name - <small>@quote.DateOfQuote.ToShortDateString()</small>
                 </CardText>
                 <AuthorizeView Policy="@QuotesPolicies.IsAdmin">
-                    <Button Clicked="() => DeleteQuoteAsync(quote.Id)">
-                        <Icon Name="IconName.Delete" IconStyle="IconStyle.Solid" TextColor="TextColor.Danger" />
+                    <Button Color="Color.Danger" Style="top:1rem;right:1rem;" Position="Position.Absolute" Clicked="async () => await DeleteQuoteAsync(quote.Id)">
+                        <Icon Name="IconName.Delete" IconStyle="IconStyle.Solid" TextColor="TextColor.White" />
                     </Button>
                 </AuthorizeView>
             </CardBody>
