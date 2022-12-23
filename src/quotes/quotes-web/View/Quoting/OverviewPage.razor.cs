@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Components;
 
-namespace quotes_web.Quoting.View
+namespace quotes_web.View.Quoting
 {
-    public partial class Overview : ComponentBase
+    public partial class OverviewPage : ComponentBase
     {
         [Inject]
         private NavigationManager NavigationManager { get; set; } = default!;

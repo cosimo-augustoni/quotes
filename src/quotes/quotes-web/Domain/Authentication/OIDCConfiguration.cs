@@ -1,4 +1,4 @@
-namespace quotes_web.Authentication.Domain;
+namespace quotes_web.Domain.Authentication;
 
 public class OIDCConfiguration
 {

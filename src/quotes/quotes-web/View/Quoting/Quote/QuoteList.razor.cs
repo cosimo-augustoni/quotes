@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
 using quotes_web.Data;
 
-namespace quotes_web.Quoting.View.Quote
+namespace quotes_web.View.Quoting.Quote
 {
     public partial class QuoteList
     {

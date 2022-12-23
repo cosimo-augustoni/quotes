@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Components;
 using quotes_web.Data;
 using File = quotes_web.Data.File;
 
-namespace quotes_web.Quoting.View.Author
+namespace quotes_web.View.Quoting.Author
 {
     public partial class AuthorForm
     {
