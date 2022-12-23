@@ -8,6 +8,7 @@ services:
       dockerfile: quotes-web/Dockerfile
     volumes:
       - ${APPDATA}\Quotes\appsettings.json:/config.json
+      - ${APPDATA}\Quotes\Images:/images
     depends_on:
       - "db"
 

@@ -32,7 +32,7 @@ namespace quotes_web
             }
 
 
-            var imagePath = Path.Combine(Directory.GetCurrentDirectory(), "images");
+            var imagePath = "/images";
             Directory.CreateDirectory(imagePath);
             var staticFileOptions = new StaticFileOptions
             {
