@@ -15,7 +15,8 @@ namespace quotes_web.Domain.Authentication
                     opt.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
                     opt.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
                 })
-                .AddCookie().AddOpenIdConnect("oidc", options =>
+                .AddCookie()
+                .AddOpenIdConnect("oidc", options =>
                 {
                     options.Authority = oidcConfiguration.Authority;
                     options.ClientId = oidcConfiguration.ClientId;
@@ -41,7 +42,11 @@ namespace quotes_web.Domain.Authentication
                     options.NonceCookie.SecurePolicy = CookieSecurePolicy.Always;
                     options.CorrelationCookie.SecurePolicy = CookieSecurePolicy.Always;
                 });
-            
+
+            services.AddAuthorization(opt =>
+            {
+                opt.AddPolicy(QuotesPolicies.IsAdmin, policy => policy.RequireClaim("groups", "quotes-admin"));
+            });
 
             return services;
         }
