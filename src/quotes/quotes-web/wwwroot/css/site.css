@@ -1,12 +1,12 @@
 @import url('open-iconic/font/css/open-iconic-bootstrap.min.css');
 
 html, body {
-    font-family: 'Shadows Into Light' !important;
+    font-family: 'Titillium Web' !important;
 }
 
 @font-face {
-    font-family: 'Shadows Into Light';
-    src: url('../fonts/ShadowsIntoLight-Regular.ttf') format('truetype');
+    font-family: 'Titillium Web';
+    src: url('../fonts/TitilliumWeb-Regular.ttf') format('truetype');
 }
 
 h1:focus {

@@ -1,37 +1,46 @@
 ﻿@inherits LayoutComponentBase
 
 @using quotes_web.Domain.Authentication
+@using Blazorise
 
 <PageTitle> Quotes 2.0</PageTitle>
 
 
 <AuthorizeView>
     <Authorized>
-        <div class="u-flex">
-            <h1 @onclick="NavigateToOverview">Quotes 2.0</h1>
-            <div>
-                <AuthorizeView Context="DropdownCtx" Policy="@QuotesPolicies.IsAdmin">
-                    <Blazorise.Button Clicked="NavigateToAdmin">Admin</Blazorise.Button>
-                </AuthorizeView>
-                <Blazorise.Button Clicked="NavigateToLogout">Logout</Blazorise.Button>
-            </div>
-        </div>
-        @Body
+        <Layout>
+            <LayoutHeader Class="header-wrapper">
+                <h1 @onclick="NavigateToOverview">Quotes 2.0</h1>
+                <div>
+                    <AuthorizeView Context="DropdownCtx" Policy="@QuotesPolicies.IsAdmin">
+                        <Button Color="Color.Warning" Clicked="NavigateToAdmin">Admin</Button>
+                    </AuthorizeView>
+                    <Button Color="Color.Secondary" Clicked="NavigateToLogout">Logout</Button>
+                </div>
+            </LayoutHeader>
+            <LayoutContent>
+                @Body
+            </LayoutContent>
+        </Layout>
     </Authorized>
     <NotAuthorized>
-        <a href="login?redirectUri=/">Log in</a>
+        <div class="login-wrapper">
+            <Button Color="Color.Primary" Clicked="NavigateToLogin">Login</Button>
+        </div>
     </NotAuthorized>
 </AuthorizeView>
 
 <style>
-    .u-flex {
-        display: flex;
-        justify-content: space-between;
-    }
-
     .particles-js-canvas-el {
         position: fixed;
         z-index: -100;
         top: 0;
+    }
+
+    .header-wrapper {
+        padding: 1rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
     }
 </style>
