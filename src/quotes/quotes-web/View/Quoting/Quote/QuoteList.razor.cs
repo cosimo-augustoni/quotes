@@ -1,16 +1,15 @@
 ﻿using Microsoft.AspNetCore.Components;
 using quotes_web.Domain.Quoting.Quote;
-using quotes_web.Persistence.Quoting;
 using File = quotes_web.Persistence.Quoting.File;
 
 namespace quotes_web.View.Quoting.Quote
 {
     public partial class QuoteList
     {
-        [Inject] 
+        [Inject]
         private IQuoteReadOnlyService QuoteReadOnlyService { get; set; } = default!;
 
-        [Inject] 
+        [Inject]
         private IQuoteService QuoteService { get; set; } = default!;
 
         private ICollection<Persistence.Quoting.Quote> Quotes { get; set; } = new List<Persistence.Quoting.Quote>();
