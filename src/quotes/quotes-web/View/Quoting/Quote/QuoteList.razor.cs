@@ -13,8 +13,7 @@ namespace quotes_web.View.Quoting.Quote
         private IQuoteService QuoteService { get; set; } = default!;
 
         private ConfirmationModal? modalRef;
-        private Guid quoteToDelete;
-
+        private Func<Task> subscription;
         private ICollection<Persistence.Quoting.Quote> Quotes { get; set; } = new List<Persistence.Quoting.Quote>();
 
         protected override async Task OnInitializedAsync()
@@ -30,10 +29,11 @@ namespace quotes_web.View.Quoting.Quote
             StateHasChanged();
         }
 
-        private async Task DeleteQuoteAsync()
+        private async Task DeleteQuoteAsync(Guid quoteId)
         {
-            await this.QuoteService.DeleteQuoteAsync(quoteToDelete);
+            await this.QuoteService.DeleteQuoteAsync(quoteId);
             await this.LoadQuotesAsync();
+            modalRef.OnConfirm -= subscription;
         }
 
         private string GetImagePath(File file)
@@ -43,7 +43,8 @@ namespace quotes_web.View.Quoting.Quote
 
         private Task ShowModal(Guid quoteId)
         {
-            this.quoteToDelete = quoteId;
+            subscription = async () => await DeleteQuoteAsync(quoteId);
+            modalRef.OnConfirm += subscription;
             return modalRef.ShowModal();
         }
     }
