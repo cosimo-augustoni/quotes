@@ -3,14 +3,14 @@
 <div class="quote-list">
     @foreach (var quote in Quotes)
     {
-        <Card Style="height:800px">
+        <Card>
             <CardImage Source="@GetImagePath(quote.Author.File)" Alt="No Image">
             </CardImage>
             <CardBody>
                 <CardTitle Size="5">
                     @quote.Text
                 </CardTitle>
-                <CardText TextOverflow="TextOverflow.Wrap">
+                <CardText>
                     @quote.Author?.Name - <small>@quote.DateOfQuote.ToShortDateString()</small>
                 </CardText>
                 <AuthorizeView Policy="@QuotesPolicies.IsAdmin">
