@@ -1,48 +1,31 @@
 ﻿<Container Fluid>
-    <Validations @ref="validations" Model="@quoteCreation" Mode="ValidationMode.Manual">
-        <Validation>
-            <Field>
-                <FieldLabel>Zitat</FieldLabel>
-                <FieldBody>
-                    <MemoEdit Rows="2" @bind-Text="quoteCreation.Text" Placeholder="Zitat eingeben">
-                        <Feedback>
-                            <ValidationError />
-                        </Feedback>
-                    </MemoEdit>
-                </FieldBody>
-            </Field>
-        </Validation>
-        <Validation>
-            <Field>
-                <FieldLabel>Tag des Zitates</FieldLabel>
-                <FieldBody>
-                    <DatePicker TValue="DateTime?" @bind-Date="quoteCreation.DateOfQuote" Placeholder="Tag auswählen">
-                        <Feedback>
-                            <ValidationError />
-                        </Feedback>
-                    </DatePicker>
-                </FieldBody>
-            </Field>
-        </Validation>
-        <Validation>
-            <Field>
-                <FieldLabel>Author</FieldLabel>
-                <FieldBody>
-                    <Select @bind-SelectedValue="quoteCreation.AuthorId">
-                        <ChildContent>
-                            <SelectItem Disabled>Author auswählen</SelectItem>
-                            @foreach (var author in Authors)
-                            {
-                                <SelectItem Value="@author.Id">@author.Name</SelectItem>
-                            }
-                        </ChildContent>
-                        <Feedback>
-                            <ValidationError />
-                        </Feedback>
-                    </Select>
-                </FieldBody>
-            </Field>
-        </Validation>
-        <Button Color="Color.Primary" Clicked="@CreateQuote">Hinzufügen</Button>
-    </Validations>
+    <Field>
+        <FieldLabel>Zitat</FieldLabel>
+        <FieldBody>
+            <MemoEdit Rows="2" @bind-Text="quoteCreation.Text" Placeholder="Zitat eingeben">
+            </MemoEdit>
+        </FieldBody>
+    </Field>
+    <Field>
+        <FieldLabel>Tag des Zitates</FieldLabel>
+        <FieldBody>
+            <DatePicker TValue="DateTime?" @bind-Date="quoteCreation.DateOfQuote" Placeholder="Tag auswählen">
+            </DatePicker>
+        </FieldBody>
+    </Field>
+    <Field>
+        <FieldLabel>Author</FieldLabel>
+        <FieldBody>
+            <Select @bind-SelectedValue="quoteCreation.AuthorId">
+                <ChildContent>
+                    <SelectItem Disabled>Author auswählen</SelectItem>
+                    @foreach (var author in Authors)
+                    {
+                        <SelectItem Value="@author.Id">@author.Name</SelectItem>
+                    }
+                </ChildContent>
+            </Select>
+        </FieldBody>
+    </Field>
+    <Button Disabled="loading" Loading="loading" Color="Color.Primary" Clicked="@CreateQuote">Hinzufügen</Button>
 </Container>

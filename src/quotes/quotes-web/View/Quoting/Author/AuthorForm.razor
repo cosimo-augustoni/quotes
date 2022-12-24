@@ -1,18 +1,18 @@
 ﻿
 <Container Fluid>
-            <Field>
-                <FieldLabel>Name</FieldLabel>
-                <FieldBody>
-                    <MemoEdit Rows="2" @bind-Text="authorCreation.Name" Placeholder="Name eingeben">
-                    </MemoEdit>
-                </FieldBody>
-            </Field>
-            <Field>
-                <FieldLabel>Portrait</FieldLabel>
-                <FieldBody>
-                    <FileEdit Changed="@OnChanged" DisableProgressReport Filter="image/*" Placeholder="Photo auswählen">
-                    </FileEdit>
-                </FieldBody>
-            </Field>
-        <Button Color="Color.Primary" Clicked="@CreateAuthorAsync">Hinzufügen</Button>
+    <Field>
+        <FieldLabel>Name</FieldLabel>
+        <FieldBody>
+            <MemoEdit Rows="2" @bind-Text="authorCreation.Name" Placeholder="Name eingeben">
+            </MemoEdit>
+        </FieldBody>
+    </Field>
+    <Field>
+        <FieldLabel>Portrait</FieldLabel>
+        <FieldBody>
+            <FileEdit Changed="@OnChanged" DisableProgressReport Filter="image/*" Placeholder="Photo auswählen">
+            </FileEdit>
+        </FieldBody>
+    </Field>
+    <Button Disabled="loading" Loading="loading" Color="Color.Primary" Clicked="@CreateAuthorAsync">Hinzufügen</Button>
 </Container>
