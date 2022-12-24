@@ -27,11 +27,11 @@
             <span aria-hidden="true">«</span>
         </PaginationLink>
     </PaginationItem>
-    <Div Flex="Flex.Row" Style="overflow-x:scroll">
+    <Div Flex="Flex.Row" Style="overflow-x:auto">
     @{
-        for (var i = 1; i <= PageItems; i++)
+        for (var i = 0; i <= PageItems; i++)
         {
-            var pageNumberAsString = i.ToString();
+            var pageNumberAsString = (i + 1).ToString();
             <PaginationItem @key="pageNumberAsString" Active="@IsActive(pageNumberAsString)">
                 <PaginationLink Page="@pageNumberAsString" Clicked="SetActive">
                     @pageNumberAsString
