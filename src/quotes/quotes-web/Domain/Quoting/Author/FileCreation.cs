@@ -18,7 +18,7 @@ public class FileCreation
             return false;
         }
 
-        if (this.FileType != "image/png" && this.FileType != "image/jpg" && this.FileType != "image/gif")
+        if (this.FileType != "image/png" && this.FileType != "image/jpg" && this.FileType != "image/jpeg" && this.FileType != "image/gif")
         {
             validationErrors.Add(new ValidationError("Nur Bilder von typ PNG, JPG, und GIF sind erlaubt!", "Bild"));
             isValid = false;
