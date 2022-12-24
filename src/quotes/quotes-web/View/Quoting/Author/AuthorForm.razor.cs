@@ -1,6 +1,7 @@
 ﻿using Blazorise;
 using Microsoft.AspNetCore.Components;
 using quotes_web.Domain.Quoting.Author;
+using System.Runtime.CompilerServices;
 
 namespace quotes_web.View.Quoting.Author
 {
@@ -15,12 +16,16 @@ namespace quotes_web.View.Quoting.Author
         [Inject]
         private IImageFileService ImageFileService { get; set; } = default!;
 
+        private bool loading;
         private AuthorCreation authorCreation = new AuthorCreation();
 
         private async Task CreateAuthor()
         {
+            loading = true;
             if (await this.AuthorService.AddAuthorAsync(this.authorCreation))
                 this.NavigationManager.NavigateTo("/");
+            loading = false;
+
         }
 
         private void OnChanged(FileChangedEventArgs e)

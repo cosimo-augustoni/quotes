@@ -16,6 +16,7 @@ namespace quotes_web.View.Quoting.Quote
         private NavigationManager NavigationManager { get; set; } = default!;
 
         private QuoteCreation quoteCreation = new QuoteCreation();
+        private bool loading;
 
         private IReadOnlyCollection<Persistence.Quoting.Author> Authors { get; set; } = new List<Persistence.Quoting.Author>();
 
@@ -27,10 +28,13 @@ namespace quotes_web.View.Quoting.Quote
 
         private async Task CreateQuote()
         {
+            loading = true;
+          await Task.Delay(3000);
             if (await this.QuoteService.AddQuoteAsync(this.quoteCreation))
             {
                 this.NavigationManager.NavigateTo("/");
             }
+            loading = false;
         }
     }
 }
