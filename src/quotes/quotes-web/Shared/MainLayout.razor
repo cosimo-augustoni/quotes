@@ -14,7 +14,7 @@
                 ErrorIcon="fa fa-bug"
                 ShowProgressBar="true" />
 
-<AuthorizeView>
+<AuthorizeView Policy="@QuotesPolicies.IsUser">
     <Authorized>
         <Layout>
             <LayoutHeader Class="header-wrapper">

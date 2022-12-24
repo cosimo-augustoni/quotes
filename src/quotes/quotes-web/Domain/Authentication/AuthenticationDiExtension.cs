@@ -46,6 +46,7 @@ namespace quotes_web.Domain.Authentication
             services.AddAuthorization(opt =>
             {
                 opt.AddPolicy(QuotesPolicies.IsAdmin, policy => policy.RequireClaim("groups", "quotes-admin"));
+                opt.AddPolicy(QuotesPolicies.IsUser, policy => policy.RequireClaim("groups", "quotes"));
             });
 
             return services;
