@@ -1,16 +1,16 @@
 ﻿@using Microsoft.EntityFrameworkCore;
 
 <div class="quote-list">
-    <Virtualize Items="@Quotes" Context="quote">
-        <Card Class="quote">
+    @foreach (var quote in Quotes)
+    {
+        <Card Style="height:800px">
             <CardImage Source="@GetImagePath(quote.Author.File)" Alt="No Image">
             </CardImage>
             <CardBody>
                 <CardTitle Size="5">
                     @quote.Text
-
                 </CardTitle>
-                <CardText>
+                <CardText TextOverflow="TextOverflow.Wrap">
                     @quote.Author?.Name - <small>@quote.DateOfQuote.ToShortDateString()</small>
                 </CardText>
                 <AuthorizeView Policy="@QuotesPolicies.IsAdmin">
@@ -20,6 +20,6 @@
                 </AuthorizeView>
             </CardBody>
         </Card>
-    </Virtualize>
+    }
 </div>
 <ConfirmationModal @ref="modalRef"></ConfirmationModal>
