@@ -1,6 +1,4 @@
-﻿using quotes_web.Data;
-
-namespace quotes_web.Domain.Quoting.Quote
+﻿namespace quotes_web.Domain.Quoting.Quote
 {
     public interface IQuoteService
     {

@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using quotes_web.Data;
 using quotes_web.Persistence.Quoting;
 
 namespace quotes_web.Domain.Quoting.Quote

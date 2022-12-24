@@ -1,6 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using quotes_web.Data;
-using File = quotes_web.Persistence.Quoting.File;
 
 namespace quotes_web.Persistence.Quoting;
 

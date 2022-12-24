@@ -17,7 +17,7 @@ namespace quotes_web.View.Quoting.Author
 
         private AuthorCreation authorCreation = new AuthorCreation();
 
-        private async Task CreateAuthor()
+        private async Task CreateAuthorAsync()
         {
             if (await this.AuthorService.AddAuthorAsync(this.authorCreation))
                 this.NavigationManager.NavigateTo("/");
