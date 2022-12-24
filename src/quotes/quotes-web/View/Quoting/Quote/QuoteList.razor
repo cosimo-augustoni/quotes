@@ -1,7 +1,6 @@
 ﻿@using Microsoft.EntityFrameworkCore;
-
 <div class="quote-list">
-    @foreach (var quote in Quotes)
+    @foreach (var quote in Quotes.Skip((int.Parse(currentPage) - 1) * SIZE).Take(SIZE))
     {
         <Card>
             <CardImage Source="@GetImagePath(quote.Author.File)" Alt="No Image">
@@ -22,4 +21,29 @@
         </Card>
     }
 </div>
+<Pagination Margin="Margin.Is2.FromTop">
+    <PaginationItem Disabled="@IsPageNavigationDisabled(PREVIOUS)" @onclick="Previous">
+        <PaginationLink>
+            <span aria-hidden="true">«</span>
+        </PaginationLink>
+    </PaginationItem>
+    <Div Flex="Flex.Row" Style="overflow-x:scroll">
+    @{
+        for (var i = 1; i <= PageItems; i++)
+        {
+            var pageNumberAsString = i.ToString();
+            <PaginationItem @key="pageNumberAsString" Active="@IsActive(pageNumberAsString)">
+                <PaginationLink Page="@pageNumberAsString" Clicked="SetActive">
+                    @pageNumberAsString
+                </PaginationLink>
+            </PaginationItem>
+        }
+        }
+    </Div>
+    <PaginationItem Disabled="@IsPageNavigationDisabled(NEXT)" @onclick="Next">
+        <PaginationLink>
+            <span aria-hidden="true">»</span>
+        </PaginationLink>
+    </PaginationItem>
+</Pagination>
 <ConfirmationModal @ref="modalRef"></ConfirmationModal>

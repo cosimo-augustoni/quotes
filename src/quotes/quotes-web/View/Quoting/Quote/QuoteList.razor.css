@@ -1,6 +1,6 @@
 ﻿.quote-list {
     display: flex;
-    height: 85vh;
+    height: 82vh;
     overflow-y: scroll;
     flex-direction: column;
     gap: 1rem;
