@@ -22,7 +22,14 @@ namespace quotes_web
             builder.Services.AddMudServices();
             builder.Services.AddBlazoredToast();
 
-            builder.Services.AddQuoting(builder.Configuration); 
+            builder.Services.AddQuoting(builder.Configuration);
+            builder.Services.Configure<ForwardedHeadersOptions>(options =>
+            {
+                options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
+
+                options.KnownNetworks.Clear();
+                options.KnownProxies.Clear();
+            });
             builder.Services.AddAuthentication(builder.Configuration);
             builder.Services.AddImportExport();
 
@@ -52,13 +59,7 @@ namespace quotes_web
 
             app.UseRouting();
             app.UseHttpsRedirection();
-            var fordwardedHeaderOptions = new ForwardedHeadersOptions
-            {
-                ForwardedHeaders = ForwardedHeaders.All
-            };
-            fordwardedHeaderOptions.KnownNetworks.Clear();
-            fordwardedHeaderOptions.KnownProxies.Clear();
-            app.UseForwardedHeaders(fordwardedHeaderOptions);
+            app.UseForwardedHeaders();
             app.UseAuthentication();
             app.UseAuthorization();
 
