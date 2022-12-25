@@ -6,6 +6,8 @@ services:
     build:
       context: .
       dockerfile: quotes-web/Dockerfile
+    ports:
+      - "8080:80"
     volumes:
       - ${APPDATA}\Quotes\appsettings.json:/config.json
       - ${APPDATA}\Quotes\Images:/images

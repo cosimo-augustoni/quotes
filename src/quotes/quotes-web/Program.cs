@@ -5,6 +5,7 @@ using quotes_web.Domain.Authentication;
 using quotes_web.Domain.ImportExport;
 using quotes_web.Domain.Quoting;
 using quotes_web.Persistence.Quoting;
+using System.Net;
 
 namespace quotes_web
 {
@@ -23,12 +24,14 @@ namespace quotes_web
             builder.Services.AddQuoting(builder.Configuration);
             builder.Services.AddAuthentication(builder.Configuration);
             builder.Services.AddImportExport();
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
             {
                 app.UseExceptionHandler("/Error");
+                app.UseHsts();
             }
 
 
