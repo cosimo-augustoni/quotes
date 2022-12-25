@@ -32,7 +32,6 @@ namespace quotes_web
             if (!app.Environment.IsDevelopment())
             {
                 app.UseExceptionHandler("/Error");
-                app.UseHsts();
             }
 
 
