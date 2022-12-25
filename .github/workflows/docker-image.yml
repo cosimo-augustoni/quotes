@@ -1,0 +1,20 @@
+name: Docker Image CI
+
+on:  
+  push:
+    tags:
+      - '*'
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Git Version
+      id: version
+      uses: codacy/git-version@2.7.1
+    - name: Build the Docker image
+      run: docker build . --file ./src/quotes/quotes-web/Dockerfile --tag my-image-name:${{ steps.version.outputs.version }}
