@@ -1,4 +1,7 @@
-﻿
+﻿.header-wrapper {
+    height: 10vh;
+}
+
 .login-wrapper {
     width: 100vw;
     height: 100vh;

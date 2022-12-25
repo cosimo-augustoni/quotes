@@ -17,7 +17,6 @@ namespace quotes_web.View.Quoting.Quote
         [Inject]
         private IDialogService DialogService { get; set; } = default!;
 
-        private Func<Task>? subscription;
         private ICollection<Persistence.Quoting.Quote> Quotes { get; set; } = new List<Persistence.Quoting.Quote>();
         protected override async Task OnInitializedAsync()
         {

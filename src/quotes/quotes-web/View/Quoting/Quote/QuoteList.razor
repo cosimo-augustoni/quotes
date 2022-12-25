@@ -1,20 +1,21 @@
 ﻿@using Microsoft.EntityFrameworkCore;
+@using System.Globalization
 <div class="quote-list">
     @foreach (var quote in Quotes)
     {
-        <MudCard>
-            <MudCardMedia Image="@GetImagePath(quote.Author.File)" />
-            <MudCardContent>
-                <MudText Typo="Typo.h3">
-                    @quote.Text
-                </MudText>
-                <MudText Typo="Typo.body2">
-                    @quote.Author?.Name - <small>@quote.DateOfQuote.ToShortDateString()</small>
-                </MudText>
-                <AuthorizeView Policy="@QuotesPolicies.IsAdmin">
-                    <MudIconButton Class="delete-button" Icon="@Icons.Material.Filled.Delete" Variant="Variant.Filled" Color="Color.Error" Size="Size.Medium" OnClick="() => ConfirmDelete(quote.Id)" />
-                </AuthorizeView>
-            </MudCardContent>
-        </MudCard>
+        <MudPaper Class="quote" Elevation="3">
+            <MudImage Fluid="true" Src="@GetImagePath(quote.Author.File)" ObjectFit="ObjectFit.Cover" Alt="No Image" Elevation="0" Class="quote-image rounded-lg">
+                
+            </MudImage>
+            <MudText Typo="Typo.h5" Class="quote-text">
+                @quote.Text
+            </MudText>
+            <MudText Typo="Typo.body1" Class="quote-detail">
+                @quote.Author?.Name - <small>@quote.DateOfQuote.ToString(CultureInfo.CurrentCulture)</small>
+            </MudText>
+            <AuthorizeView Policy="@QuotesPolicies.IsAdmin">
+                <MudButton StartIcon="@Icons.Material.Filled.Delete" Style="width: fit-content;" Variant="Variant.Filled" Color="Color.Error" Size="Size.Medium" OnClick="() => ConfirmDelete(quote.Id)" >Löschen</MudButton>
+            </AuthorizeView>
+        </MudPaper>
     }
 </div>
