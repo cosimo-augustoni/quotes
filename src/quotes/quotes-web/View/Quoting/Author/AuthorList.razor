@@ -1,25 +1,28 @@
-﻿<div class="author-list">
+﻿@using System.Globalization
+<div class="author-list">
     @foreach (var author in Authors)
     {
-        <MudCard>
-            <MudCardMedia Image="@GetImagePath(author.File!)"></MudCardMedia>
-            <MudCardContent>
-                <MudText Typo="Typo.h3">
-                    @author.Name
-                </MudText>
-                <MudIconButton Class="delete-button" Icon="@Icons.Material.Filled.Delete" Variant="Variant.Filled" Color="Color.Error" Size="Size.Medium" OnClick="() => ConfirmDelete(author.Id)" />
+        <MudPaper Class="author" Elevation="3">
+            <MudImage Fluid="true" Src="@GetImagePath(author.File)" ObjectFit="ObjectFit.Cover" Alt="No Image" Elevation="0" Class="author-image rounded-lg">
+
+            </MudImage>
+            <MudText Typo="Typo.h5" Class="author-name">
+                @author.Name
+            </MudText>
+            <div class="author-actions">
+                <MudButton StartIcon="@Icons.Material.Filled.Delete" Style="width: fit-content;" Variant="Variant.Filled" Color="Color.Error" Size="Size.Medium" OnClick="() => ConfirmDelete(author.Id)">Löschen</MudButton>
                 <MudFileUpload T="IBrowserFile" FilesChanged="async e => await OnChangedAsync(e, author.Id)">
                     <ButtonTemplate>
                         <MudButton HtmlTag="label"
                                    Variant="Variant.Filled"
                                    Color="Color.Primary"
                                    StartIcon="@Icons.Filled.Image"
-                               for="@context">
+                                   for="@context">
                             Bild updaten
                         </MudButton>
                     </ButtonTemplate>
                 </MudFileUpload>
-            </MudCardContent>
-        </MudCard>
+            </div>
+        </MudPaper>
     }
 </div>
