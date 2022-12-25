@@ -1,14 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace quotes_web.Domain.Quoting.Quote
+﻿namespace quotes_web.Domain.Quoting.Quote
 {
     public class QuoteCreation
     {
         public string? Text { get; set; }
-        [Required(ErrorMessage = "Author ist erforderlich")]
         public Guid? AuthorId { get; set; }
-        [Required(ErrorMessage = "Tag des Zitates ist erforderlich")]
-        public  DateTime? DateOfQuote { get; set; }
+        public  DateTime? DateOfQuote { get; set; } = DateTime.Today;
         public bool Validate(out List<ValidationError> validationErrors)
         {
             var isValid = true;

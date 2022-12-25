@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
+using MudBlazor;
 using quotes_web.Domain.Quoting.Quote;
-using quotes_web.Persistence.Quoting;
+using quotes_web.View.Shared;
 using File = quotes_web.Persistence.Quoting.File;
 
 namespace quotes_web.View.Quoting.Quote
@@ -13,14 +14,11 @@ namespace quotes_web.View.Quoting.Quote
         [Inject]
         private IQuoteService QuoteService { get; set; } = default!;
 
-        private ConfirmationModal? modalRef;
-        private Func<Task> subscription;
+        [Inject]
+        private IDialogService DialogService { get; set; } = default!;
+
+        private Func<Task>? subscription;
         private ICollection<Persistence.Quoting.Quote> Quotes { get; set; } = new List<Persistence.Quoting.Quote>();
-        private const string PREVIOUS = "previous";
-        private const string NEXT = "next";
-        private string currentPage = "1";
-        private const int SIZE = 10;
-        private int PageItems => Quotes.Count / SIZE;
         protected override async Task OnInitializedAsync()
         {
             await this.LoadQuotesAsync();
@@ -31,14 +29,7 @@ namespace quotes_web.View.Quoting.Quote
         {
             var quotes = await this.QuoteReadOnlyService.GetQuotesAsync();
             this.Quotes = quotes.OrderByDescending(q => q.DateOfQuote).ToList();
-            StateHasChanged();
-        }
-
-        private async Task DeleteQuoteAsync(Guid quoteId)
-        {
-            await this.QuoteService.DeleteQuoteAsync(quoteId);
-            await this.LoadQuotesAsync();
-            modalRef.OnConfirm -= subscription;
+            this.StateHasChanged();
         }
 
         private string GetImagePath(File file)
@@ -46,46 +37,15 @@ namespace quotes_web.View.Quoting.Quote
             return $"/images/{file.FileName}";
         }
 
-        private Task ShowModal(Guid quoteId)
+        private async Task ConfirmDelete(Guid quoteId)
         {
-            subscription = async () => await DeleteQuoteAsync(quoteId);
-            modalRef.OnConfirm += subscription;
-            return modalRef.ShowModal();
-        }
-        private bool IsActive(string page)
-         => currentPage == page;
-        private bool IsPageNavigationDisabled(string navigation)
-        {
-            if (navigation.Equals(PREVIOUS))
+            var dialog = await this.DialogService.ShowAsync<ConfirmDeleteDialog>("Löschen");
+            var result = await dialog.Result;
+            if (!result.Cancelled)
             {
-                return currentPage.Equals("1");
-            }
-            else if (navigation.Equals(NEXT))
-            {
-                return currentPage.Equals(PageItems.ToString());
-            }
-            return false;
-        }
-
-        private void Previous()
-        {
-            var currentPageAsInt = int.Parse(currentPage);
-            if (currentPageAsInt > 1)
-            {
-                currentPage = (currentPageAsInt - 1).ToString();
+                await this.QuoteService.DeleteQuoteAsync(quoteId);
+                await this.LoadQuotesAsync();
             }
         }
-
-        private void Next()
-        {
-            var currentPageAsInt = int.Parse(currentPage);
-            if (currentPageAsInt < PageItems)
-            {
-                currentPage = (currentPageAsInt + 1).ToString();
-            }
-        }
-
-        private void SetActive(string page)
-            => currentPage = page;
     }
 }

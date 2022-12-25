@@ -1,31 +1,9 @@
-﻿<Dropdown Class="overview-dropdown-wrapper">
-    <DropdownToggle Color="Color.Primary">
-        <Icon Name="IconName.Add" IconStyle="IconStyle.Solid" IconSize="IconSize.Large" />
-    </DropdownToggle>
-    <DropdownMenu Class="overview-dropdown">
-        <DropdownItem Flex="Flex.JustifyContent.Between.AlignItems.Center" Clicked="NavigateToAuthorCreation">
-            Author <Icon Name="IconName.Users"></Icon>
-        </DropdownItem>
-        <DropdownItem Flex="Flex.JustifyContent.Between.AlignItems.Center" Clicked="NavigateToQuoteCreation">
-            Quote  <Icon Name="IconName.QuoteRight"></Icon>
-        </DropdownItem>
-    </DropdownMenu>
-</Dropdown>
-<style>
-    .overview-dropdown-wrapper .dropdown-toggle::after {
-        display: none;
-    }
-
-    .overview-dropdown.show {
-        min-width: 7rem !important;
-        height: 9rem;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-    }
-
-    .overview-dropdown .dropdown-item {
-        height: 3.5rem;
-        padding: 0rem 1rem;
-    }
-</style>
+﻿<MudMenu>
+    <ActivatorContent>
+        <MudFab Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add"></MudFab>
+    </ActivatorContent>
+    <ChildContent>
+        <MudMenuItem OnClick="NavigateToAuthorCreation">Author</MudMenuItem>
+        <MudMenuItem OnClick="NavigateToQuoteCreation">Quote</MudMenuItem>
+    </ChildContent>
+</MudMenu>

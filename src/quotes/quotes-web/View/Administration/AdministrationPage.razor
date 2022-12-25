@@ -1,14 +1,12 @@
 ﻿@page "/admin"
-@using quotes_web.View.Quoting.Quote
 @using quotes_web.View.Quoting.Author
-@using quotes_web.View.Administration
 
 <AuthorizeView Policy="@QuotesPolicies.IsAdmin">
     <Authorized>
-        <Div Flex="Flex.Column">
+        <div style="display: flex;">
             <ImportExportForm></ImportExportForm>
             <AuthorList></AuthorList>
-        </Div>
+        </div>
     </Authorized>
     <NotAuthorized>
         <p>Not Authorized</p>

@@ -1,49 +1,20 @@
 ﻿@using Microsoft.EntityFrameworkCore;
 <div class="quote-list">
-    @foreach (var quote in Quotes.Skip((int.Parse(currentPage) - 1) * SIZE).Take(SIZE))
+    @foreach (var quote in Quotes)
     {
-        <Card>
-            <CardImage Source="@GetImagePath(quote.Author.File)" Alt="No Image">
-            </CardImage>
-            <CardBody>
-                <CardTitle Size="5">
+        <MudCard>
+            <MudCardMedia Image="@GetImagePath(quote.Author.File)" />
+            <MudCardContent>
+                <MudText Typo="Typo.h3">
                     @quote.Text
-                </CardTitle>
-                <CardText>
+                </MudText>
+                <MudText Typo="Typo.body2">
                     @quote.Author?.Name - <small>@quote.DateOfQuote.ToShortDateString()</small>
-                </CardText>
+                </MudText>
                 <AuthorizeView Policy="@QuotesPolicies.IsAdmin">
-                    <Button Color="Color.Danger" Style="top:1rem;right:1rem;" Position="Position.Absolute" Clicked="() => ShowModal(quote.Id)">
-                        <Icon Name="IconName.Delete" IconStyle="IconStyle.Solid" TextColor="TextColor.White" />
-                    </Button>
+                    <MudIconButton Class="delete-button" Icon="@Icons.Material.Filled.Delete" Variant="Variant.Filled" Color="Color.Error" Size="Size.Medium" OnClick="() => ConfirmDelete(quote.Id)" />
                 </AuthorizeView>
-            </CardBody>
-        </Card>
+            </MudCardContent>
+        </MudCard>
     }
 </div>
-<Pagination Margin="Margin.Is2.FromTop">
-    <PaginationItem Disabled="@IsPageNavigationDisabled(PREVIOUS)" @onclick="Previous">
-        <PaginationLink>
-            <span aria-hidden="true">«</span>
-        </PaginationLink>
-    </PaginationItem>
-    <Div Flex="Flex.Row" Style="overflow-x:auto">
-    @{
-        for (var i = 0; i <= PageItems; i++)
-        {
-            var pageNumberAsString = (i + 1).ToString();
-            <PaginationItem @key="pageNumberAsString" Active="@IsActive(pageNumberAsString)">
-                <PaginationLink Page="@pageNumberAsString" Clicked="SetActive">
-                    @pageNumberAsString
-                </PaginationLink>
-            </PaginationItem>
-        }
-        }
-    </Div>
-    <PaginationItem Disabled="@IsPageNavigationDisabled(NEXT)" @onclick="Next">
-        <PaginationLink>
-            <span aria-hidden="true">»</span>
-        </PaginationLink>
-    </PaginationItem>
-</Pagination>
-<ConfirmationModal @ref="modalRef"></ConfirmationModal>

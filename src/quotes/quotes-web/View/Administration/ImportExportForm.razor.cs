@@ -1,5 +1,5 @@
-﻿using Blazorise;
-using Microsoft.AspNetCore.Components;
+﻿using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.JSInterop;
 using quotes_web.Domain.ImportExport;
 using System.Globalization;
@@ -15,9 +15,8 @@ namespace quotes_web.View.Administration
         private IJSRuntime JsRuntime { get; set; } = default!;
 
 
-        private async Task Import(FileChangedEventArgs arg)
+        private async Task Import(IBrowserFile? file)
         {
-            var file = arg.Files.FirstOrDefault();
             if (file == null)
                 return;
 

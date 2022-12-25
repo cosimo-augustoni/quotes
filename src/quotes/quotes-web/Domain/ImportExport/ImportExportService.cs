@@ -1,4 +1,4 @@
-﻿using Blazorise;
+﻿using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.EntityFrameworkCore;
 using quotes_web.Persistence.Quoting;
 using System.Text.Json;
@@ -15,7 +15,7 @@ namespace quotes_web.Domain.ImportExport
             this.dbContextFactory = dbContextFactory;
         }
 
-        public async Task ImportAsync(IFileEntry file)
+        public async Task ImportAsync(IBrowserFile file)
         {
             using var stream = new MemoryStream();
             await file.OpenReadStream().CopyToAsync(stream);

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Microsoft.Identity.Client;
 using quotes_web.Domain.Quoting.Author;
 using quotes_web.Domain.Quoting.Quote;
 
@@ -15,8 +16,9 @@ namespace quotes_web.View.Quoting.Quote
         [Inject]
         private NavigationManager NavigationManager { get; set; } = default!;
 
-        private QuoteCreation quoteCreation = new QuoteCreation();
+        private QuoteCreation quoteCreation = new QuoteCreation(){AuthorId = null};
         private bool loading;
+        private Guid? SelectedAuthor { get; set; }
 
         private IReadOnlyCollection<Persistence.Quoting.Author> Authors { get; set; } = new List<Persistence.Quoting.Author>();
 

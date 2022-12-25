@@ -1,7 +1,6 @@
-﻿using Blazorise;
-using Microsoft.AspNetCore.Components;
+﻿using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Forms;
 using quotes_web.Domain.Quoting.Author;
-using System.Runtime.CompilerServices;
 
 namespace quotes_web.View.Quoting.Author
 {
@@ -21,22 +20,36 @@ namespace quotes_web.View.Quoting.Author
 
         private async Task CreateAuthorAsync()
         {
-            loading = true;
+            this.loading = true;
             if (await this.AuthorService.AddAuthorAsync(this.authorCreation))
                 this.NavigationManager.NavigateTo("/");
-            loading = false;
+            this.loading = false;
 
         }
 
-        private void OnChanged(FileChangedEventArgs e)
+        private void OnChanged(IBrowserFile file)
         {
-            var fileCreation = this.ImageFileService.GetFileCreationFromEvent(e);
+            var fileCreation = this.ImageFileService.GetFileCreationFromBrowserFile(file);
             if (fileCreation == null)
                 return;
 
             this.authorCreation.FileCreation = fileCreation;
         }
 
+        public string Humanize(long? byteSize)
+        {
+            if (byteSize == null)
+                return string.Empty;
 
+            var sizes = new List<string>{ "B", "KB", "MB", "GB", "TB" };
+            double len = byteSize.Value;
+            var order = 0;
+            while (len >= 1024 && order < sizes.Count - 1) {
+                order++;
+                len /= 1024;
+            }
+
+            return $"{len:0.##} {sizes[order]}";
+        }
     }
 }

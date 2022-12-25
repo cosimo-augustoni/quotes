@@ -1,5 +1,4 @@
-﻿using Blazorise;
-using Microsoft.AspNetCore.Components;
+﻿using Microsoft.AspNetCore.Components;
 
 namespace quotes_web.Shared
 {
@@ -7,9 +6,7 @@ namespace quotes_web.Shared
     {
         [Inject]
         private NavigationManager NavigationManager { get; set; } = default!;
-        private Theme theme = new Theme
-        {
-        };
+
         private void NavigateToAdmin()
         {
             this.NavigationManager.NavigateTo("admin");

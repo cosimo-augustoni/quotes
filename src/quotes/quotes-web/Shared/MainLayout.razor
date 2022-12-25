@@ -1,7 +1,6 @@
 ﻿@inherits LayoutComponentBase
 
 @using quotes_web.Domain.Authentication
-@using Blazorise
 @using Blazored.Toast
 @using Blazored.Toast.Configuration
 
@@ -13,29 +12,31 @@
                 SuccessIcon="fa fa-thumbs-up"
                 ErrorIcon="fa fa-bug"
                 ShowProgressBar="true" />
+<MudThemeProvider />
+<MudDialogProvider FullWidth="true"
+   MaxWidth="MaxWidth.ExtraSmall"
+   CloseButton="true"
+   DisableBackdropClick="true"
+   NoHeader="true"
+   Position="DialogPosition.Center"
+   CloseOnEscapeKey="true" />
 
 <AuthorizeView Policy="@QuotesPolicies.IsUser">
     <Authorized>
-        <Layout>
-            <LayoutHeader Class="header-wrapper">
-                <h1 @onclick="NavigateToOverview">Quotes 2.0</h1>
-                <div>
-                    <AuthorizeView Context="dropdownCtx" Policy="@QuotesPolicies.IsAdmin">
-                        <Button Color="Color.Warning" Clicked="NavigateToAdmin">Admin</Button>
-                    </AuthorizeView>
-                    <Button Color="Color.Secondary" Clicked="NavigateToLogout">Logout</Button>
-                </div>
-            </LayoutHeader>
-            <LayoutContent>
-                <ThemeProvider Theme="@theme">
-                @Body
-                </ThemeProvider>
-            </LayoutContent>
-        </Layout>
+        <div class="header-wrapper">
+            <h1 @onclick="NavigateToOverview">Quotes 2.0</h1>
+            <div>
+                <AuthorizeView Context="dropdownCtx" Policy="@QuotesPolicies.IsAdmin">
+                    <MudButton Color="Color.Warning" OnClick="NavigateToAdmin">Admin</MudButton>
+                </AuthorizeView>
+                <MudButton Color="Color.Secondary" OnClick="NavigateToLogout">Logout</MudButton>
+            </div>
+        </div>
+        @Body
     </Authorized>
     <NotAuthorized>
         <div class="login-wrapper">
-            <Button Color="Color.Primary" Clicked="NavigateToLogin">Login</Button>
+            <MudButton Color="Color.Primary" OnClick="NavigateToLogin">Login</MudButton>
         </div>
     </NotAuthorized>
 </AuthorizeView>

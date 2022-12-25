@@ -1,4 +1,4 @@
-﻿using Blazorise;
+﻿using Microsoft.AspNetCore.Components.Forms;
 
 namespace quotes_web.Domain.Quoting.Author
 {
@@ -9,6 +9,6 @@ namespace quotes_web.Domain.Quoting.Author
 
         Task DeleteAuthorAsync(Guid authorId);
 
-        Task UpdateAuthorImageAsync(Guid authorId, IFileEntry fileEntry);
+        Task UpdateAuthorImageAsync(Guid authorId, IBrowserFile? fileEntry);
     }
 }

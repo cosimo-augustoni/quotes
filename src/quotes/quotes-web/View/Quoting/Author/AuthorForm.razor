@@ -1,18 +1,30 @@
-﻿
-<Container Fluid>
-    <Field>
-        <FieldLabel>Name</FieldLabel>
-        <FieldBody>
-            <MemoEdit Rows="2" @bind-Text="authorCreation.Name" Placeholder="Name eingeben">
-            </MemoEdit>
-        </FieldBody>
-    </Field>
-    <Field>
-        <FieldLabel>Portrait</FieldLabel>
-        <FieldBody>
-            <FileEdit Changed="@OnChanged" DisableProgressReport Filter="image/*" Placeholder="Photo auswählen">
-            </FileEdit>
-        </FieldBody>
-    </Field>
-    <Button Disabled="loading" Loading="loading" Color="Color.Primary" Clicked="@CreateAuthorAsync">Hinzufügen</Button>
-</Container>
+﻿<MudPaper Class="pa-16 ma-2" Elevation="3">
+    <MudTextField T="string" Label="Name" @bind-Value="authorCreation.Name" />
+    <MudFileUpload T="IBrowserFile" FilesChanged="OnChanged">
+        <ButtonTemplate>
+            <MudButton HtmlTag="label"
+                       Variant="Variant.Filled"
+                       Color="Color.Primary"
+                       StartIcon="@Icons.Filled.Image"
+                       for="@context">
+                Bild auswählen
+            </MudButton>
+        </ButtonTemplate>
+    </MudFileUpload>
+    @if (!string.IsNullOrEmpty(authorCreation.FileCreation.Name))
+    {
+        <MudText>@authorCreation.FileCreation.Name - @Humanize(authorCreation.FileCreation.FileEntry?.Size) </MudText>
+    }
+
+    <MudButton Disabled="loading" OnClick="CreateAuthorAsync" Color="Color.Primary">
+        @if (loading)
+        {
+            <MudProgressCircular Class="ms-n1" Size="Size.Small" Indeterminate="true" />
+            <MudText Class="ms-2">Erfasse...</MudText>
+        }
+        else
+        {
+            <MudText>Erfassen</MudText>
+        }
+    </MudButton>
+</MudPaper>

@@ -1,5 +1,5 @@
 ﻿using Blazored.Toast.Services;
-using Blazorise;
+using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.EntityFrameworkCore;
 using quotes_web.Persistence.Quoting;
 
@@ -52,11 +52,11 @@ namespace quotes_web.Domain.Quoting.Author
             return true;
         }
 
-        public async Task UpdateAuthorImageAsync(Guid authorId, IFileEntry fileEntry)
+        public async Task UpdateAuthorImageAsync(Guid authorId, IBrowserFile? fileEntry)
         {
             await using var context = await this.dbContextFactory.CreateDbContextAsync();
             var author = await context.Authors.Include(a => a.File).FirstOrDefaultAsync(a => a.Id == authorId);
-            if (author?.File == null)
+            if (author?.File == null || fileEntry == null)
                 return;
 
             await this.imageFileService.UpdateImageFileAsync(author.File.FilePath, fileEntry);

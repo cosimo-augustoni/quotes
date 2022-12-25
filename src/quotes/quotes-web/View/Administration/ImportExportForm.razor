@@ -1,2 +1,12 @@
-﻿Import: <FileEdit Changed="@Import" />
-<Button Color="Color.Warning" Clicked="@ExportAsync">Export</Button>
+﻿<MudFileUpload T="IBrowserFile" FilesChanged="Import">
+    <ButtonTemplate>
+        <MudButton HtmlTag="label"
+                   Variant="Variant.Filled"
+                   Color="Color.Primary"
+                   StartIcon="@Icons.Filled.Image"
+                   for="@context">
+            Import File
+        </MudButton>
+    </ButtonTemplate>
+</MudFileUpload>
+<MudButton Color="Color.Warning" OnClick="@ExportAsync">Export</MudButton>

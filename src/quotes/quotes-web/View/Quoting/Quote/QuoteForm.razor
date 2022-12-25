@@ -1,31 +1,23 @@
-﻿<Container Fluid>
-    <Field>
-        <FieldLabel>Zitat</FieldLabel>
-        <FieldBody>
-            <MemoEdit Rows="2" @bind-Text="quoteCreation.Text" Placeholder="Zitat eingeben">
-            </MemoEdit>
-        </FieldBody>
-    </Field>
-    <Field>
-        <FieldLabel>Tag des Zitates</FieldLabel>
-        <FieldBody>
-            <DatePicker TValue="DateTime?" @bind-Date="quoteCreation.DateOfQuote" Placeholder="Tag auswählen">
-            </DatePicker>
-        </FieldBody>
-    </Field>
-    <Field>
-        <FieldLabel>Author</FieldLabel>
-        <FieldBody>
-            <Select @bind-SelectedValue="quoteCreation.AuthorId">
-                <ChildContent>
-                    <SelectItem Disabled>Author auswählen</SelectItem>
-                    @foreach (var author in Authors)
-                    {
-                        <SelectItem Value="@author.Id">@author.Name</SelectItem>
-                    }
-                </ChildContent>
-            </Select>
-        </FieldBody>
-    </Field>
-    <Button Disabled="loading" Loading="loading" Color="Color.Primary" Clicked="@CreateQuote">Hinzufügen</Button>
-</Container>
+﻿@using quotes_web.Persistence.Quoting
+<MudPaper Class="pa-16 ma-2" Elevation="3">
+    <MudTextField T="string" Label="Quote" @bind-Value="quoteCreation.Text" /> 
+    <MudDatePicker Label="Tag des Zitates" @bind-Date="quoteCreation.DateOfQuote" DateFormat="dd.MM.yyyy" />
+    <MudSelect T="Guid?" Label="Author" @bind-Value="@quoteCreation.AuthorId">
+        @foreach (var author in Authors)
+        {
+            <MudSelectItem T="Guid?" Value="@author.Id" >@author.Name</MudSelectItem>
+        }
+    </MudSelect>
+    
+    <MudButton Disabled="loading" OnClick="CreateQuote" Color="Color.Primary">
+        @if (loading)
+        {
+            <MudProgressCircular Class="ms-n1" Size="Size.Small" Indeterminate="true"/>
+            <MudText Class="ms-2">Erfasse...</MudText>
+        }
+        else
+        {
+            <MudText>Erfassen</MudText>
+        }
+    </MudButton>
+</MudPaper>

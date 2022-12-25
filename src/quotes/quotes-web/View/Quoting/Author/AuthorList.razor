@@ -1,15 +1,25 @@
 ﻿<div class="author-list">
-    <Virtualize Items="@Authors" Context="author">
-        <Card Class="quote">
-            <CardImage Source="@GetImagePath(author.File!)" Alt="No Image"></CardImage>
-            <CardBody>
-                <CardTitle Size="5">@author.Name</CardTitle>
-                <Button Color="Color.Danger" Style="top:1rem;right:1rem;" Position="Position.Absolute" Clicked="() => ShowModal(author.Id)">
-                    <Icon Name="IconName.Delete" IconStyle="IconStyle.Solid" TextColor="TextColor.White" />
-                </Button>
-                <FileEdit Changed="async e => await OnChangedAsync(e, author.Id)"></FileEdit>
-            </CardBody>
-        </Card>
-    </Virtualize>
+    @foreach (var author in Authors)
+    {
+        <MudCard>
+            <MudCardMedia Image="@GetImagePath(author.File!)"></MudCardMedia>
+            <MudCardContent>
+                <MudText Typo="Typo.h3">
+                    @author.Name
+                </MudText>
+                <MudIconButton Class="delete-button" Icon="@Icons.Material.Filled.Delete" Variant="Variant.Filled" Color="Color.Error" Size="Size.Medium" OnClick="() => ConfirmDelete(author.Id)" />
+                <MudFileUpload T="IBrowserFile" FilesChanged="async e => await OnChangedAsync(e, author.Id)">
+                    <ButtonTemplate>
+                        <MudButton HtmlTag="label"
+                                   Variant="Variant.Filled"
+                                   Color="Color.Primary"
+                                   StartIcon="@Icons.Filled.Image"
+                               for="@context">
+                            Bild updaten
+                        </MudButton>
+                    </ButtonTemplate>
+                </MudFileUpload>
+            </MudCardContent>
+        </MudCard>
+    }
 </div>
-<ConfirmationModal @ref="modalRef"></ConfirmationModal>

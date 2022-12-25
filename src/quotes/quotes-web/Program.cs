@@ -1,8 +1,6 @@
 using Blazored.Toast;
-using Blazorise;
-using Blazorise.Bootstrap;
-using Blazorise.Icons.FontAwesome;
 using Microsoft.Extensions.FileProviders;
+using MudBlazor.Services;
 using quotes_web.Domain.Authentication;
 using quotes_web.Domain.ImportExport;
 using quotes_web.Domain.Quoting;
@@ -18,12 +16,12 @@ namespace quotes_web
             builder.Configuration.AddJsonFile("/config.json");
             builder.Services.AddRazorPages(opt => opt.RootDirectory = "/View");
             builder.Services.AddServerSideBlazor();
-            builder.Services.AddBlazorise()
-                .AddBootstrapProviders()
-                .AddFontAwesomeIcons();
+
+            builder.Services.AddMudServices();
+            builder.Services.AddBlazoredToast();
+
             builder.Services.AddQuoting(builder.Configuration);
             builder.Services.AddAuthentication(builder.Configuration);
-            builder.Services.AddBlazoredToast();
             builder.Services.AddImportExport();
             var app = builder.Build();
 

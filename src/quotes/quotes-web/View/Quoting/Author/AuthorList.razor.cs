@@ -1,6 +1,8 @@
-﻿using Blazorise;
-using Microsoft.AspNetCore.Components;
+﻿using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Forms;
+using MudBlazor;
 using quotes_web.Domain.Quoting.Author;
+using quotes_web.View.Shared;
 using File = quotes_web.Persistence.Quoting.File;
 
 namespace quotes_web.View.Quoting.Author
@@ -16,10 +18,11 @@ namespace quotes_web.View.Quoting.Author
         [Inject]
         private IImageFileService ImageFileService { get; set; } = default!;
 
+        [Inject]
+        private IDialogService DialogService { get; set; } = default!;
+
         private ICollection<Persistence.Quoting.Author> Authors { get; set; } = new List<Persistence.Quoting.Author>();
 
-        private ConfirmationModal? modalRef;
-        private Func<Task> subscription;
         protected override async Task OnInitializedAsync()
         {
             await this.LoadAuthorsAsync();
@@ -30,14 +33,7 @@ namespace quotes_web.View.Quoting.Author
         {
             var authors = await this.AuthorReadOnlyService.GetAuthorsAsync();
             this.Authors = authors.OrderBy(a => a.Name).ToList();
-            StateHasChanged();
-        }
-
-        private async Task DeleteAuthorAsync(Guid id)
-        {
-            await this.AuthorService.DeleteAuthorAsync(id);
-            await this.LoadAuthorsAsync();
-            modalRef.OnConfirm -= subscription;
+            this.StateHasChanged();
         }
 
         private string GetImagePath(File file)
@@ -45,19 +41,23 @@ namespace quotes_web.View.Quoting.Author
             return $"/images/{file.FileName}";
         }
 
-        private async Task OnChangedAsync(FileChangedEventArgs e, Guid authorId)
+        private async Task OnChangedAsync(IBrowserFile e, Guid authorId)
         {
-            var fileCreation = this.ImageFileService.GetFileCreationFromEvent(e);
+            var fileCreation = this.ImageFileService.GetFileCreationFromBrowserFile(e);
             if (fileCreation == null)
                 return;
 
             await this.AuthorService.UpdateAuthorImageAsync(authorId, fileCreation.FileEntry);
         }
-        private Task ShowModal(Guid authorId)
+        private async Task ConfirmDelete(Guid authorId)
         {
-            subscription = async () => await DeleteAuthorAsync(authorId);
-            modalRef.OnConfirm += subscription;
-            return modalRef.ShowModal();
+            var dialog = await this.DialogService.ShowAsync<ConfirmDeleteDialog>("Löschen");
+            var result = await dialog.Result;
+            if (!result.Cancelled)
+            {
+                await this.AuthorService.DeleteAuthorAsync(authorId);
+                await this.LoadAuthorsAsync();
+            }
         }
     }
 }
