@@ -60,6 +60,17 @@ namespace quotes_web
             fordwardedHeaderOptions.KnownNetworks.Clear();
             fordwardedHeaderOptions.KnownProxies.Clear();
             app.UseForwardedHeaders(fordwardedHeaderOptions);
+
+            app.Use((context, next) =>
+            {
+                if (context.Request.Headers.TryGetValue("X-Forwarded-Prefix", out var pathBase))
+                {
+                    context.Request.PathBase = pathBase.ToString();
+                }
+
+                return next();
+            });
+
             app.UseAuthentication();
             app.UseAuthorization();
 
