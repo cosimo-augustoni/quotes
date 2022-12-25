@@ -1,4 +1,5 @@
 using Blazored.Toast;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.FileProviders;
 using MudBlazor.Services;
 using quotes_web.Domain.Authentication;
@@ -21,7 +22,7 @@ namespace quotes_web
             builder.Services.AddMudServices();
             builder.Services.AddBlazoredToast();
 
-            builder.Services.AddQuoting(builder.Configuration);
+            builder.Services.AddQuoting(builder.Configuration); 
             builder.Services.AddAuthentication(builder.Configuration);
             builder.Services.AddImportExport();
 
@@ -52,6 +53,13 @@ namespace quotes_web
 
             app.UseRouting();
             app.UseHttpsRedirection();
+            var fordwardedHeaderOptions = new ForwardedHeadersOptions
+            {
+                ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+            };
+            fordwardedHeaderOptions.KnownNetworks.Clear();
+            fordwardedHeaderOptions.KnownProxies.Clear();
+            app.UseForwardedHeaders(fordwardedHeaderOptions);
             app.UseAuthentication();
             app.UseAuthorization();
 
