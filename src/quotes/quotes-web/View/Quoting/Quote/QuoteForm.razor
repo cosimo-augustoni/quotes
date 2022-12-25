@@ -1,23 +1,25 @@
 ﻿@using quotes_web.Persistence.Quoting
-<MudPaper Class="pa-16 ma-2" Elevation="3">
-    <MudTextField T="string" Label="Quote" @bind-Value="quoteCreation.Text" /> 
-    <MudDatePicker Label="Tag des Zitates" @bind-Date="quoteCreation.DateOfQuote" DateFormat="dd.MM.yyyy" />
-    <MudSelect T="Guid?" Label="Author" @bind-Value="@quoteCreation.AuthorId">
-        @foreach (var author in Authors)
-        {
-            <MudSelectItem T="Guid?" Value="@author.Id" >@author.Name</MudSelectItem>
-        }
-    </MudSelect>
+<div>
+    <MudPaper Class="creation-container" Elevation="3">
+        <MudTextField Class="input-field" T="string" Label="Quote" @bind-Value="quoteCreation.Text" /> 
+        <MudDatePicker Class="input-field" Label="Tag des Zitates" @bind-Date="quoteCreation.DateOfQuote" DateFormat="dd.MM.yyyy" />
+        <MudSelect Class="input-field" T="Guid?" Label="Author" @bind-Value="@quoteCreation.AuthorId">
+            @foreach (var author in Authors)
+            {
+                <MudSelectItem T="Guid?" Value="@author.Id" >@author.Name</MudSelectItem>
+            }
+        </MudSelect>
     
-    <MudButton Disabled="loading" OnClick="CreateQuote" Color="Color.Primary">
-        @if (loading)
-        {
-            <MudProgressCircular Class="ms-n1" Size="Size.Small" Indeterminate="true"/>
-            <MudText Class="ms-2">Erfasse...</MudText>
-        }
-        else
-        {
-            <MudText>Erfassen</MudText>
-        }
-    </MudButton>
-</MudPaper>
+        <MudButton Class="create-button" Disabled="loading" Variant="Variant.Filled" OnClick="CreateQuote" Color="Color.Primary">
+            @if (loading)
+            {
+                <MudProgressCircular Size="Size.Small" Indeterminate="true"/>
+                <MudText>Erfasse...</MudText>
+            }
+            else
+            {
+                <MudText>Erfassen</MudText>
+            }
+        </MudButton>
+    </MudPaper>
+</div>

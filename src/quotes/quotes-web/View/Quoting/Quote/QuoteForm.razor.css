@@ -1,1 +1,28 @@
-﻿
+﻿::deep .creation-container {
+    display: flex;
+    max-width: 98vw;
+    gap: 4rem;
+    align-items: center;
+    flex-direction: column;
+    margin: 1rem auto;
+    padding: 20px;
+}
+
+::deep .input-field {
+    width: 88vw;
+}
+
+@media screen and (min-width: 500px) {
+    ::deep .create-button {
+        align-self: flex-end;
+    }
+
+    ::deep .creation-container {
+        max-width: 50vw;
+        gap: 1rem;
+    }
+
+    ::deep .input-field {
+        width: 48vw;
+    }
+}

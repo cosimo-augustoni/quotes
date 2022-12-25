@@ -1,30 +1,32 @@
-﻿<MudPaper Class="pa-16 ma-2" Elevation="3">
-    <MudTextField T="string" Label="Name" @bind-Value="authorCreation.Name" />
-    <MudFileUpload T="IBrowserFile" FilesChanged="OnChanged">
-        <ButtonTemplate>
-            <MudButton HtmlTag="label"
-                       Variant="Variant.Filled"
-                       Color="Color.Primary"
-                       StartIcon="@Icons.Filled.Image"
-                       for="@context">
-                Bild auswählen
-            </MudButton>
-        </ButtonTemplate>
-    </MudFileUpload>
-    @if (!string.IsNullOrEmpty(authorCreation.FileCreation.Name))
-    {
-        <MudText>@authorCreation.FileCreation.Name - @Humanize(authorCreation.FileCreation.FileEntry?.Size) </MudText>
-    }
+﻿<div>
+    <MudPaper Class="creation-container" Elevation="3">
+        <MudTextField Class="input-field" T="string" Label="Name" @bind-Value="authorCreation.Name" />
+        <MudFileUpload Class="input-button" T="IBrowserFile" FilesChanged="OnChanged">
+            <ButtonTemplate>
+                <MudButton HtmlTag="label"
+                           Variant="Variant.Filled"
+                           Color="Color.Primary"
+                           StartIcon="@Icons.Filled.Image"
+                           for="@context">
+                    Bild auswählen
+                </MudButton>
+            </ButtonTemplate>
+        </MudFileUpload>
+        @if (!string.IsNullOrEmpty(authorCreation.FileCreation.Name))
+        {
+            <MudText>@authorCreation.FileCreation.Name - @Humanize(authorCreation.FileCreation.FileEntry?.Size) </MudText>
+        }
 
-    <MudButton Disabled="loading" OnClick="CreateAuthorAsync" Color="Color.Primary">
-        @if (loading)
-        {
-            <MudProgressCircular Class="ms-n1" Size="Size.Small" Indeterminate="true" />
-            <MudText Class="ms-2">Erfasse...</MudText>
-        }
-        else
-        {
-            <MudText>Erfassen</MudText>
-        }
-    </MudButton>
-</MudPaper>
+        <MudButton Class="create-button" Disabled="loading" Variant="Variant.Filled" OnClick="CreateAuthorAsync" Color="Color.Primary">
+            @if (loading)
+            {   
+                <MudProgressCircular Size="Size.Small" Indeterminate="true" />
+                <MudText>Erfasse...</MudText>
+            }
+            else
+            {
+                <MudText>Erfassen</MudText>
+            }
+        </MudButton>
+    </MudPaper>
+</div>

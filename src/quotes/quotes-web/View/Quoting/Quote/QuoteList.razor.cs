@@ -28,7 +28,6 @@ namespace quotes_web.View.Quoting.Quote
         {
             var quotes = await this.QuoteReadOnlyService.GetQuotesAsync();
             this.Quotes = quotes.OrderByDescending(q => q.DateOfQuote).ToList();
-            this.StateHasChanged();
         }
 
         private string GetImagePath(File file)
