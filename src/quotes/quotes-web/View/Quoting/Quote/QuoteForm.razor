@@ -2,7 +2,7 @@
 <div>
     <MudPaper Class="creation-container" Elevation="3">
         <MudTextField Class="input-field" T="string" Label="Quote" @bind-Value="quoteCreation.Text" /> 
-        <MudDatePicker Class="input-field" Label="Tag des Zitates" @bind-Date="quoteCreation.DateOfQuote" DateFormat="dd.MM.yyyy" />
+        <MudDatePicker Class="input-field" Label="Tag des Zitates" @bind-Date="quoteCreation.DateOfQuote" DateFormat="dd.MM.yyyy" FirstDayOfWeek="DayOfWeek.Monday" />
         <MudSelect Class="input-field" T="Guid?" Label="Author" @bind-Value="@quoteCreation.AuthorId">
             @foreach (var author in Authors.OrderBy(a => a.Name))
             {
