@@ -12,7 +12,7 @@
                 SuccessIcon="fa fa-thumbs-up"
                 ErrorIcon="fa fa-bug"
                 ShowProgressBar="true" />
-<MudThemeProvider />
+<MudThemeProvider @ref="@mudThemeProvider" @bind-IsDarkMode="@isDarkMode"/>
 <MudDialogProvider FullWidth="true"
    MaxWidth="MaxWidth.ExtraSmall"
    CloseButton="true"
