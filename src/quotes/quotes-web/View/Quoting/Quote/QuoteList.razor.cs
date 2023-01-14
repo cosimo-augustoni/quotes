@@ -27,7 +27,6 @@ namespace quotes_web.View.Quoting.Quote
         private async Task LoadQuotesAsync()
         {
             var quotes = await this.QuoteReadOnlyService.GetQuotesAsync();
-            await Task.Delay(2000);
             this.Quotes = quotes.OrderByDescending(q => q.DateOfQuote).ToList();
         }
 
