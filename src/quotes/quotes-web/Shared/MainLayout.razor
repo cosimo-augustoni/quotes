@@ -3,6 +3,7 @@
 @using quotes_web.Domain.Authentication
 @using Blazored.Toast
 @using Blazored.Toast.Configuration
+@using System.Reflection
 
 <PageTitle> Quotes 2.0</PageTitle>
 
@@ -12,7 +13,7 @@
                 SuccessIcon="fa fa-thumbs-up"
                 ErrorIcon="fa fa-bug"
                 ShowProgressBar="true" />
-<MudThemeProvider />
+<MudThemeProvider @ref="@mudThemeProvider" @bind-IsDarkMode="@isDarkMode"/>
 <MudDialogProvider FullWidth="true"
    MaxWidth="MaxWidth.ExtraSmall"
    CloseButton="true"
@@ -27,6 +28,7 @@
             <h1 @onclick="NavigateToOverview">Quotes 2.0</h1>
             <div>
                 <AuthorizeView Context="dropdownCtx" Policy="@QuotesPolicies.IsAdmin">
+                    @Assembly.GetExecutingAssembly().GetName().Version?.ToString()
                     <MudButton Color="Color.Warning" OnClick="NavigateToAdmin">Admin</MudButton>
                 </AuthorizeView>
                 <MudButton Color="Color.Secondary" OnClick="NavigateToLogout">Logout</MudButton>

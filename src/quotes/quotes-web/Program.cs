@@ -21,6 +21,7 @@ namespace quotes_web
 
             builder.Services.AddMudServices();
             builder.Services.AddBlazoredToast();
+            builder.Services.AddLocalization();
 
             builder.Services.AddQuoting(builder.Configuration);
             builder.Services.Configure<ForwardedHeadersOptions>(options =>
@@ -62,6 +63,8 @@ namespace quotes_web
             app.UseForwardedHeaders();
             app.UseAuthentication();
             app.UseAuthorization();
+
+            app.UseRequestLocalization("de-CH");
 
             app.MapBlazorHub();
             app.MapFallbackToPage("/_Host");

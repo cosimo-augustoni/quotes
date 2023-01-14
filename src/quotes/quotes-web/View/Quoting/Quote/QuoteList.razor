@@ -11,7 +11,7 @@
                 @quote.Text
             </MudText>
             <MudText Typo="Typo.body1" Class="quote-detail">
-                @quote.Author?.Name - <small>@quote.DateOfQuote.ToString(CultureInfo.CurrentCulture)</small>
+                @quote.Author?.Name - <small>@quote.DateOfQuote.ToString("dd.MM.yyyy")</small>
             </MudText>
             <AuthorizeView Policy="@QuotesPolicies.IsAdmin">
                 <MudButton StartIcon="@Icons.Material.Filled.Delete" Style="width: fit-content;" Variant="Variant.Filled" Color="Color.Error" Size="Size.Medium" OnClick="() => ConfirmDelete(quote.Id)" >Löschen</MudButton>

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using MudBlazor;
 
 namespace quotes_web.Shared
 {
@@ -24,7 +25,22 @@ namespace quotes_web.Shared
 
         private void NavigateToLogin()
         {
-            this.NavigationManager.NavigateTo("login?redirectUri=/", forceLoad: true );
+            this.NavigationManager.NavigateTo("login?redirectUri=/", forceLoad: true);
+        }
+
+        private bool isDarkMode;
+        private MudThemeProvider? mudThemeProvider;
+
+        protected override async Task OnAfterRenderAsync(bool firstRender)
+        {
+            if (firstRender)
+            {
+                if (this.mudThemeProvider != null)
+                {
+                    this.isDarkMode = await this.mudThemeProvider.GetSystemPreference();
+                    this.StateHasChanged();
+                }
+            }
         }
     }
 }
