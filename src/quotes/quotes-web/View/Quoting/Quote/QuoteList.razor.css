@@ -1,4 +1,5 @@
 ﻿.quote-list {
+    padding-top: 1rem;
     display: flex;
     height: 90vh;
     overflow-y: auto;
