@@ -28,7 +28,6 @@
             <h1 @onclick="NavigateToOverview">Quotes 2.0</h1>
             <div>
                 <AuthorizeView Context="dropdownCtx" Policy="@QuotesPolicies.IsAdmin">
-                    @Assembly.GetExecutingAssembly().GetName().Version?.ToString()
                     <MudButton Color="Color.Warning" OnClick="NavigateToAdmin">Admin</MudButton>
                 </AuthorizeView>
                 <MudButton Color="Color.Secondary" OnClick="NavigateToLogout">Logout</MudButton>
