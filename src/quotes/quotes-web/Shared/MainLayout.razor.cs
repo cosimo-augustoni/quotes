@@ -38,6 +38,7 @@ namespace quotes_web.Shared
                 if (this.mudThemeProvider != null)
                 {
                     this.isDarkMode = await this.mudThemeProvider.GetSystemPreference();
+                    this.StateHasChanged();
                 }
             }
         }
