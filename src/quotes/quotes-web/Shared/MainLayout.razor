@@ -15,12 +15,12 @@
                 ShowProgressBar="true" />
 <MudThemeProvider @ref="@mudThemeProvider" @bind-IsDarkMode="@isDarkMode" Theme="mudTheme" />
 <MudDialogProvider FullWidth="true"
-   MaxWidth="MaxWidth.ExtraSmall"
-   CloseButton="true"
-   DisableBackdropClick="true"
-   NoHeader="true"
-   Position="DialogPosition.Center"
-   CloseOnEscapeKey="true" />
+                   MaxWidth="MaxWidth.ExtraSmall"
+                   CloseButton="true"
+                   DisableBackdropClick="true"
+                   NoHeader="true"
+                   Position="DialogPosition.Center"
+                   CloseOnEscapeKey="true" />
 
 <AuthorizeView Policy="@QuotesPolicies.IsUser">
     <Authorized>
@@ -33,7 +33,16 @@
                 <MudButton Color="Color.Secondary" OnClick="NavigateToLogout">Logout</MudButton>
             </div>
         </div>
-        @Body
+        <main class="d-flex flex-grow-1 justify-center flex-wrap align-content-center">
+            @if (applicationReady)
+            {
+                @Body
+            }
+            else
+            {
+                <MudProgressCircular Color="Color.Primary" Class="flex" Indeterminate="true" Style="height: 100px; width:100px;"/>
+            }
+        </main>
     </Authorized>
     <NotAuthorized>
         <div class="login-wrapper">

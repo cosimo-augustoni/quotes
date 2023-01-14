@@ -18,8 +18,8 @@
     <link href="_content/Blazored.Toast/blazored-toast.min.css" rel="stylesheet" />
     <component type="typeof(HeadOutlet)" render-mode="ServerPrerendered" />
 </head>
-<body id="particles-js" >
-    <component type="typeof(App)" render-mode="ServerPrerendered" />
+<body id="particles-js">
+    <component type="typeof(App)" render-mode="Server" />
 
     <div id="blazor-error-ui">
         <environment include="Staging,Production">
@@ -58,6 +58,8 @@
 </html>
 <style>
     body {
+        display: flex;
+        flex-direction: column;
         background-color: var(--mud-palette-appbar-background);
         height: 100vh;
     }
