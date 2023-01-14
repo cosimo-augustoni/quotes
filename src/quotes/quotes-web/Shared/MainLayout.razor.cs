@@ -37,7 +37,7 @@ namespace quotes_web.Shared
         }
 
         private bool isDarkMode;
-        private bool applicationReady;
+        private bool isApplicationReady;
         private MudThemeProvider? mudThemeProvider;
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -47,7 +47,7 @@ namespace quotes_web.Shared
                 if (this.mudThemeProvider != null)
                 {
                     this.isDarkMode = await this.mudThemeProvider.GetSystemPreference();
-                    applicationReady = true;
+                    this.isApplicationReady = true;
                     this.StateHasChanged();
                 }
             }

@@ -33,16 +33,19 @@
                 <MudButton Color="Color.Secondary" OnClick="NavigateToLogout">Logout</MudButton>
             </div>
         </div>
-        <main class="d-flex flex-grow-1 justify-center flex-wrap align-content-center">
-            @if (applicationReady)
-            {
+
+        @if (isApplicationReady)
+        {
+            <main class="d-flex flex-grow-1">
                 @Body
-            }
-            else
-            {
-                <MudProgressCircular Color="Color.Primary" Class="flex" Indeterminate="true" Style="height: 100px; width:100px;"/>
-            }
-        </main>
+            </main>
+        }
+        else
+        {
+            <main class="d-flex flex-grow-1 justify-center flex-wrap align-content-center">
+                <MudProgressCircular Color="Color.Primary" Indeterminate="true" Style="height: 100px; width:100px;" />
+            </main>
+        }
     </Authorized>
     <NotAuthorized>
         <div class="login-wrapper">
