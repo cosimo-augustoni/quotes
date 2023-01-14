@@ -17,7 +17,7 @@ namespace quotes_web.View.Quoting.Quote
         [Inject]
         private IDialogService DialogService { get; set; } = default!;
 
-        private ICollection<Persistence.Quoting.Quote> Quotes { get; set; } = new List<Persistence.Quoting.Quote>();
+        private ICollection<Persistence.Quoting.Quote>? Quotes { get; set; } = null;
         protected override async Task OnInitializedAsync()
         {
             await this.LoadQuotesAsync();
@@ -27,7 +27,7 @@ namespace quotes_web.View.Quoting.Quote
         private async Task LoadQuotesAsync()
         {
             var quotes = await this.QuoteReadOnlyService.GetQuotesAsync();
-            this.Quotes = quotes.OrderByDescending(q => q.DateOfQuote).ToList();
+           this.Quotes = quotes.OrderByDescending(q => q.DateOfQuote).ToList();
         }
 
         private string GetImagePath(File file)

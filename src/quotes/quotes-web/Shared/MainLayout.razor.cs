@@ -5,6 +5,14 @@ namespace quotes_web.Shared
 {
     public partial class MainLayout
     {
+        private MudTheme mudTheme  = new MudTheme()
+        {
+            Palette = new Palette()
+            {
+                AppbarBackground = Colors.BlueGrey.Lighten1
+            },
+        };
+
         [Inject]
         private NavigationManager NavigationManager { get; set; } = default!;
 
@@ -29,6 +37,7 @@ namespace quotes_web.Shared
         }
 
         private bool isDarkMode;
+        private bool applicationReady;
         private MudThemeProvider? mudThemeProvider;
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -38,6 +47,7 @@ namespace quotes_web.Shared
                 if (this.mudThemeProvider != null)
                 {
                     this.isDarkMode = await this.mudThemeProvider.GetSystemPreference();
+                    applicationReady = true;
                     this.StateHasChanged();
                 }
             }

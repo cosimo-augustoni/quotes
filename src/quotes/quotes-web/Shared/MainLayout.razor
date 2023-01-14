@@ -13,28 +13,36 @@
                 SuccessIcon="fa fa-thumbs-up"
                 ErrorIcon="fa fa-bug"
                 ShowProgressBar="true" />
-<MudThemeProvider @ref="@mudThemeProvider" @bind-IsDarkMode="@isDarkMode"/>
+<MudThemeProvider @ref="@mudThemeProvider" @bind-IsDarkMode="@isDarkMode" Theme="mudTheme" />
 <MudDialogProvider FullWidth="true"
-   MaxWidth="MaxWidth.ExtraSmall"
-   CloseButton="true"
-   DisableBackdropClick="true"
-   NoHeader="true"
-   Position="DialogPosition.Center"
-   CloseOnEscapeKey="true" />
+                   MaxWidth="MaxWidth.ExtraSmall"
+                   CloseButton="true"
+                   DisableBackdropClick="true"
+                   NoHeader="true"
+                   Position="DialogPosition.Center"
+                   CloseOnEscapeKey="true" />
 
 <AuthorizeView Policy="@QuotesPolicies.IsUser">
     <Authorized>
-        <div class="header-wrapper">
+        <div class="header-wrapper @(isDarkMode ? "header-wrapper__dark" : "header-wrapper__light")">
             <h1 @onclick="NavigateToOverview">Quotes 2.0</h1>
             <div>
                 <AuthorizeView Context="dropdownCtx" Policy="@QuotesPolicies.IsAdmin">
-                    @Assembly.GetExecutingAssembly().GetName().Version?.ToString()
                     <MudButton Color="Color.Warning" OnClick="NavigateToAdmin">Admin</MudButton>
                 </AuthorizeView>
                 <MudButton Color="Color.Secondary" OnClick="NavigateToLogout">Logout</MudButton>
             </div>
         </div>
-        @Body
+        <main class="d-flex flex-grow-1 justify-center flex-wrap align-content-center">
+            @if (applicationReady)
+            {
+                @Body
+            }
+            else
+            {
+                <MudProgressCircular Color="Color.Primary" Class="flex" Indeterminate="true" Style="height: 100px; width:100px;"/>
+            }
+        </main>
     </Authorized>
     <NotAuthorized>
         <div class="login-wrapper">
@@ -42,15 +50,3 @@
         </div>
     </NotAuthorized>
 </AuthorizeView>
-
-<style>
-
-
-    .header-wrapper {
-        padding: 1rem;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        background-color: rgba(108,117,125,0.4)
-    }
-</style>

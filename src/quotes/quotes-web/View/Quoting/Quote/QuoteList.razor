@@ -1,21 +1,29 @@
 ﻿@using Microsoft.EntityFrameworkCore;
 @using System.Globalization
 <div class="quote-list">
-    @foreach (var quote in Quotes)
+    @if (Quotes != null)
     {
-        <MudPaper Class="quote" Elevation="3">
-            <MudImage Fluid="true" Src="@GetImagePath(quote.Author.File)" ObjectFit="ObjectFit.Cover" Alt="No Image" Elevation="0" Class="quote-image rounded-lg">
-                
-            </MudImage>
-            <MudText Typo="Typo.h5" Class="quote-text">
-                @quote.Text
-            </MudText>
-            <MudText Typo="Typo.body1" Class="quote-detail">
-                @quote.Author?.Name - <small>@quote.DateOfQuote.ToString("dd.MM.yyyy")</small>
-            </MudText>
-            <AuthorizeView Policy="@QuotesPolicies.IsAdmin">
-                <MudButton StartIcon="@Icons.Material.Filled.Delete" Style="width: fit-content;" Variant="Variant.Filled" Color="Color.Error" Size="Size.Medium" OnClick="() => ConfirmDelete(quote.Id)" >Löschen</MudButton>
-            </AuthorizeView>
-        </MudPaper>
+        @foreach (var quote in Quotes)
+        {
+            <MudPaper Class="quote" Elevation="3">
+                <MudImage Fluid="true" Src="@GetImagePath(quote.Author.File)" ObjectFit="ObjectFit.Cover" Alt="No Image" Elevation="0" Class="quote-image rounded-lg">
+
+                </MudImage>
+                <MudText Typo="Typo.h5" Class="quote-text">
+                    @quote.Text
+                </MudText>
+                <MudText Typo="Typo.body1" Class="quote-detail">
+                    @quote.Author?.Name - <small>@quote.DateOfQuote.ToString("dd.MM.yyyy")</small>
+                </MudText>
+                <AuthorizeView Policy="@QuotesPolicies.IsAdmin">
+                    <MudButton StartIcon="@Icons.Material.Filled.Delete" Style="width: fit-content;" Variant="Variant.Filled" Color="Color.Error" Size="Size.Medium" OnClick="() => ConfirmDelete(quote.Id)">Löschen</MudButton>
+                </AuthorizeView>
+            </MudPaper>
+        }
+
+    }
+    else
+    {
+        <MudProgressCircular Color="Color.Primary" Class="flex" Indeterminate="true" Style="height: 100px; width:100px;" />
     }
 </div>

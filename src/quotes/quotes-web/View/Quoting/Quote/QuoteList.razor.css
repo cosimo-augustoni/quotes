@@ -1,9 +1,13 @@
 ﻿.quote-list {
+    padding-top: 1rem;
     display: flex;
     height: 90vh;
     overflow-y: auto;
     flex-direction: column;
     gap: 1rem;
+    justify-content: center;
+    align-items: center;
+    overflow-x: hidden;
 }
 
 ::deep .quote {
