@@ -1,8 +1,8 @@
 ﻿@using Microsoft.EntityFrameworkCore;
 @using System.Globalization
-<div class="quote-list">
-    @if (Quotes != null)
-    {
+@if (Quotes != null)
+{
+    <div class="quote-list">
         @foreach (var quote in Quotes)
         {
             <MudPaper Class="quote" Elevation="3">
@@ -20,10 +20,11 @@
                 </AuthorizeView>
             </MudPaper>
         }
-
-    }
-    else
-    {
-        <MudProgressCircular Color="Color.Primary" Class="flex" Indeterminate="true" Style="height: 100px; width:100px;" />
-    }
-</div>
+    </div>
+}
+else
+{
+    <div class="loading-container">
+        <MudProgressCircular Color="Color.Primary" Indeterminate="true" Style="height: 100px; width:100px;" />
+    </div>
+}

@@ -27,7 +27,8 @@ namespace quotes_web.View.Quoting.Quote
         private async Task LoadQuotesAsync()
         {
             var quotes = await this.QuoteReadOnlyService.GetQuotesAsync();
-           this.Quotes = quotes.OrderByDescending(q => q.DateOfQuote).ToList();
+            await Task.Delay(2000);
+            this.Quotes = quotes.OrderByDescending(q => q.DateOfQuote).ToList();
         }
 
         private string GetImagePath(File file)
