@@ -18,7 +18,7 @@
     <link href="_content/Blazored.Toast/blazored-toast.min.css" rel="stylesheet" />
     <component type="typeof(HeadOutlet)" render-mode="ServerPrerendered" />
 </head>
-<body id="particles-js">
+<body id="particles-js" >
     <component type="typeof(App)" render-mode="ServerPrerendered" />
 
     <div id="blazor-error-ui">
@@ -58,7 +58,7 @@
 </html>
 <style>
     body {
-        background-color: lightslategray;
+        background-color: var(--mud-palette-appbar-background);
         height: 100vh;
     }
 

@@ -5,6 +5,14 @@ namespace quotes_web.Shared
 {
     public partial class MainLayout
     {
+        private MudTheme mudTheme  = new MudTheme()
+        {
+            Palette = new Palette()
+            {
+                AppbarBackground = Colors.BlueGrey.Lighten1
+            },
+        };
+
         [Inject]
         private NavigationManager NavigationManager { get; set; } = default!;
 

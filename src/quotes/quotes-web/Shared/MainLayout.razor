@@ -13,7 +13,7 @@
                 SuccessIcon="fa fa-thumbs-up"
                 ErrorIcon="fa fa-bug"
                 ShowProgressBar="true" />
-<MudThemeProvider @ref="@mudThemeProvider" @bind-IsDarkMode="@isDarkMode"/>
+<MudThemeProvider @ref="@mudThemeProvider" @bind-IsDarkMode="@isDarkMode" Theme="mudTheme" />
 <MudDialogProvider FullWidth="true"
    MaxWidth="MaxWidth.ExtraSmall"
    CloseButton="true"
@@ -24,7 +24,7 @@
 
 <AuthorizeView Policy="@QuotesPolicies.IsUser">
     <Authorized>
-        <div class="header-wrapper">
+        <div class="header-wrapper @(isDarkMode ? "header-wrapper__dark" : "header-wrapper__light")">
             <h1 @onclick="NavigateToOverview">Quotes 2.0</h1>
             <div>
                 <AuthorizeView Context="dropdownCtx" Policy="@QuotesPolicies.IsAdmin">
@@ -42,15 +42,3 @@
         </div>
     </NotAuthorized>
 </AuthorizeView>
-
-<style>
-
-
-    .header-wrapper {
-        padding: 1rem;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        background-color: rgba(108,117,125,0.4)
-    }
-</style>
