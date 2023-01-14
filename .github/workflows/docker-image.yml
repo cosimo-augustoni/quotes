@@ -31,3 +31,4 @@ jobs:
         push: ${{ github.ref_type == 'tag' }}
         tags: ${{ steps.meta.outputs.tags }}
         labels: ${{ steps.meta.outputs.labels }}
+        build-args: BUILD_VERSION=${{ steps.meta.outputs.version }}
