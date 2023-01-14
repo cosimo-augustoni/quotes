@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using Blazored.Toast.Services;
+using Microsoft.AspNetCore.Components;
 using Microsoft.Identity.Client;
 using quotes_web.Domain.Quoting.Author;
 using quotes_web.Domain.Quoting.Quote;
@@ -7,6 +8,9 @@ namespace quotes_web.View.Quoting.Quote
 {
     public partial class QuoteForm
     {
+        [Inject]
+        private  IToastService ToastService { get; set; } = default!;
+
         [Inject] 
         private IAuthorReadOnlyService AuthorReadOnlyService { get; set; } = default!;
 
@@ -33,6 +37,7 @@ namespace quotes_web.View.Quoting.Quote
             loading = true;
             if (await this.QuoteService.AddQuoteAsync(this.quoteCreation))
             {
+                this.ToastService.ShowSuccess("Zitat wurde erstellt.", "Erstellen erfolgreich!");
                 this.NavigationManager.NavigateTo("/");
             }
             loading = false;

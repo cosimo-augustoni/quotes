@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using Blazored.Toast.Services;
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using quotes_web.Domain.Quoting.Author;
 
@@ -6,6 +7,9 @@ namespace quotes_web.View.Quoting.Author
 {
     public partial class AuthorForm
     {
+        [Inject]
+        private IToastService ToastService { get; set; } = default!;
+     
         [Inject]
         private IAuthorService AuthorService { get; set; } = default!;
 
@@ -22,7 +26,10 @@ namespace quotes_web.View.Quoting.Author
         {
             this.loading = true;
             if (await this.AuthorService.AddAuthorAsync(this.authorCreation))
+            {
+                this.ToastService.ShowSuccess("Author wurde erstellt.", "Erstellen erfolgreich!");
                 this.NavigationManager.NavigateTo("/");
+            }
             this.loading = false;
 
         }
